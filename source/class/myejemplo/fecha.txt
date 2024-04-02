@@ -1,0 +1,73 @@
+//Conversion de Date y Time a segundos
+		var añosTotales = 0;
+		var mesesTotales = 0;
+		var diasTotales = 0;
+		var horasTotales = 0;
+		var minTotales = 0;
+		var segTotales = 0;
+		
+		var x1 = (año * AÑO);
+		var x2 = (mes * MES);
+		var x3 = (dia * DIA);
+		var x4 = ((spinnerHora.getValue()) * HORA);
+		var x5 = ((spinnerMinute.getValue()) * MIN);
+		
+		segundosTotales = x1 + x2 + x3 + x4 + x5 + (spinnerSecond.getValue());
+		
+		/*
+		switch(segundosTotales){
+		
+		case segundosTotales > AÑO:
+			segundosTotales -= AÑO;
+			añosTotales++;
+		break;
+		
+		case segundosTotales > MES:
+			segundosTotales -= MES;
+			mesesTotales++;
+		break;
+			
+		case segundosTotales > DIA:
+			segundosTotales -= DIA;
+			diasTotales++;
+		break;
+		
+		case segundosTotales > HORA:
+			segundosTotales -= HORA;
+			horasTotales++;
+		break;
+		
+		case segundosTotales > MIN:
+			segundosTotales -= MIN;
+			minTotales++;
+		break;
+		
+		case segundosTotales > 1:
+			segTotales -= 1;
+			
+			if(segTotales == 60){
+				segTotales = 0;
+				minTotales++;
+			
+			}
+			if(minTotales == 60){
+				minTotales = 0;
+				horasTotales++;
+			}
+			if(horasTotales == 24){
+				horasTotales = 0;
+				diasTotales++;
+			}
+			if(diasTotales == 31){
+				diasTotales = 0;
+				mesesTotales++;
+			}
+			if(mesesTotales == 12){
+				mesesTotales = 0;
+				añosTotales++;
+			}
+			
+		break;
+		}
+		*/
+		
