@@ -12,5 +12,28 @@ qx.Class.define("myejemplo.TrendTable", {
    
     
     this.setTableModel(tableModel);
+    this.mouseEventTable();
+  },
+  
+  members:{
+  
+  	mouseEventTable:function(){
+  	
+  		this.addListener("contextmenu", function(e){
+  		
+  		 
+      		var menu = new qx.ui.menu.Menu();
+  		menu.setOpener(this);
+  		
+  		var btn1 = new qx.ui.menu.Button("Add Axis");
+		
+		menu.add(btn1);
+		
+		menu.openAtPointer(e); 
+  		});
+  	
+  	
+  	}
+  
   }
 });

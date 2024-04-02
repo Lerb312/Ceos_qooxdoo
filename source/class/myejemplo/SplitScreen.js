@@ -6,7 +6,6 @@
 // SplitScreen layout - pantalla dividida
 qx.Class.define("myejemplo.SplitScreen", {
   extend: qx.ui.splitpane.Pane,
-
   construct: function () {
     
     // Llama al constructor de la clase base
@@ -212,7 +211,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      
      scroller.setMaxWidth(1820);//buscar ajustar este tamaño
     
-   
+  
 	
      //MenuBar para el graph1
      var menuBar1 = new qx.ui.menubar.MenuBar();	
@@ -315,6 +314,8 @@ qx.Class.define("myejemplo.SplitScreen", {
        graph1.add(menuBar1, {row: 0, column: 0});
        // graph1.add(menuBar2, {row: 1, column: 0});
       graph1.add(scroller, {row: 2, column: 0, colSpan: 150});
+      
+      this.mouseEventTable(scroller);
    //------------------------------------------------------------------------------------//
     
     var graph2 = new qx.ui.tabview.Page("Trend 2");
@@ -322,9 +323,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     topComponent.add(graph1);
     topComponent.add(graph2);
 
-     
     
-     
     // SplitScreen BOTTOM component
     
     var bottomComponent = new qx.ui.tabview.TabView();
@@ -1245,6 +1244,53 @@ qx.Class.define("myejemplo.SplitScreen", {
 	     	menu.add(btnMenuOpciones2Top14);
        return menu;
 		},
+		
+		mouseEventTable:function(cont){
+  	
+  		cont.addListener("contextmenu", function(e){
+  		
+  		 
+      		var menu = new qx.ui.menu.Menu();
+  		menu.setOpener(cont);
+  		
+  		var btn1 = new qx.ui.menu.Button("Hide Toolbar");
+  		var btn2 = new qx.ui.menu.Button("Add PV");
+  		var btn3 = new qx.ui.menu.Button("Add Formula");
+  		var btn4 = new qx.ui.menu.Button("Import csv");
+  		var btn5 = new qx.ui.menu.Button("Print...");
+  		var btn6 = new qx.ui.menu.Button("Save Snapshot");
+  		var btn7 = new qx.ui.menu.Button("Create Log");
+  		var btn8 = new qx.ui.menu.Button("Send Email");
+  		var btn9 = new qx.ui.menu.Button("Open Archive Search Panel");
+  		var btn10 = new qx.ui.menu.Button("Open Properties Panel");
+  		var btn11 = new qx.ui.menu.Button("Open Data Export Panel");
+  		var btn12 = new qx.ui.menu.Button("Inspect Samples");
+  		var btn13 = new qx.ui.menu.Button("Inspect Waveforms");
+  		var btn14 = new qx.ui.menu.Button("Refresh");
+		
+		menu.add(btn1);
+		menu.add(new qx.ui.menu.Separator());
+		menu.add(btn2);
+		menu.add(btn3);
+		menu.add(btn4);
+		menu.add(new qx.ui.menu.Separator());
+		menu.add(btn5);
+		menu.add(btn6);
+		menu.add(btn7);
+		menu.add(btn8);
+		menu.add(new qx.ui.menu.Separator());
+		menu.add(btn9);
+		menu.add(btn10);
+		menu.add(btn11);
+		menu.add(btn12);
+		menu.add(btn13);
+		menu.add(btn14);
+		
+		menu.openAtPointer(e); 
+  		});
+  	
+  	
+  	}
 		
 	}
 });
