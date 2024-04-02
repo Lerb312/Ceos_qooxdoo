@@ -21,7 +21,7 @@
   "applications": [
     {
       "class": "myejemplo.Application",
-      "theme": "myejemplo.theme.Theme",
+      "theme": "qx.theme.Indigo",
       "name": "myejemplo",
       "bootPath": "source/boot"
     }
