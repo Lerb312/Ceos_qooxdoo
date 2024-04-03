@@ -21,7 +21,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      topComponent.setMaxHeight(550); 
      
      //Contenedor principal del tabview
-     var contenedorMainTop = new qx.ui.container.Composite(new qx.ui.layout.VBox());
+     //var contenedorMainTop = new qx.ui.container.Composite(new qx.ui.layout.VBox());
      
      
      //////////////////////menubar parte de arriba//////
@@ -197,10 +197,10 @@ qx.Class.define("myejemplo.SplitScreen", {
      	
      	///////////////////fin del menuBarTop2
      	
-     	contenedorMainTop.add(menuBarTop1);
-     	contenedorMainTop.add(menuBarTop2);
+     	//contenedorMainTop.add(menuBarTop1);
+     	//contenedorMainTop.add(menuBarTop2);
      //////////////////////////////////////////////////
-     contenedorMainTop.add(topComponent);
+     //contenedorMainTop.add(topComponent);
      var graph1 = new qx.ui.tabview.Page("Trend 1");
      graph1.setLayout(new qx.ui.layout.Grid(30, 25));
      
@@ -237,7 +237,9 @@ qx.Class.define("myejemplo.SplitScreen", {
      	btnMenuBar11.setEnabled(false);
      	
      	//eventos de los botones btnMenuBar del 1 al 13
-     	btnMenuBar1.addListener("execute", function(e){});
+     	
+      this.windowConfig1(btnMenuBar1, scroller);
+     	
      	btnMenuBar2.addListener("execute", function(e){});
      	btnMenuBar3.addListener("execute", function(e){});
      	btnMenuBar4.addListener("execute", function(e){});
@@ -312,7 +314,6 @@ qx.Class.define("myejemplo.SplitScreen", {
       }, this); 
       
        graph1.add(menuBar1, {row: 0, column: 0});
-       // graph1.add(menuBar2, {row: 1, column: 0});
       graph1.add(scroller, {row: 2, column: 0, colSpan: 150});
       
       this.mouseEventTable(scroller);
@@ -910,7 +911,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     bottomComponent.setMinHeight(200); // Altura mínima de 200 píxeles
     bottomComponent.setMaxHeight(400); // Altura máxima de 400 píxeles
     // Añade los componentes al contenedor
-    this.add(contenedorMainTop, 1);
+    this.add(topComponent, 1);
     this.add(bottomComponent, 2);
   },
   
@@ -1159,10 +1160,10 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 		getResourcesMenu6:function(){
 		
-		 var menu = new qx.ui.menu.Menu();
+		 let menu = new qx.ui.menu.Menu();
 		 
-		 var BtnScanEditor = new qx.ui.menu.Button("Scan Editor");
-		 var BtnMonitor = new qx.ui.menu.Button("Scan Monitor");
+		 let BtnScanEditor = new qx.ui.menu.Button("Scan Editor");
+		 let BtnMonitor = new qx.ui.menu.Button("Scan Monitor");
 		
 		
 	      menu.add(BtnScanEditor);
@@ -1173,18 +1174,18 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 		getResourcesMenu7:function(){
 		
-		 var menu = new qx.ui.menu.Menu();
+		 let menu = new qx.ui.menu.Menu();
 		 
-		 var BtnConsole = new qx.ui.menu.Button("Console");
-		 var BtnDisplay= new qx.ui.menu.Button("Display Navigation View");
-		 var BtnFileBrowser = new qx.ui.menu.Button("File Browser");
-		 var BtnLogCalender = new qx.ui.menu.Button("Log Entry Calender");
-		 var BtnLogTable = new qx.ui.menu.Button("Log Entry Table");
-		 var BtnLogging = new qx.ui.menu.Button("Logging Config");
-		 var BtnMessage = new qx.ui.menu.Button("Message Log");
-		 var BtnSave = new qx.ui.menu.Button("Save and Restore");
-		 var BtnEmail = new qx.ui.menu.Button("Send Email");
-		 var BtnLogBook = new qx.ui.menu.Button("Send To Log Book");
+		 let BtnConsole = new qx.ui.menu.Button("Console");
+		 let BtnDisplay= new qx.ui.menu.Button("Display Navigation View");
+		 let BtnFileBrowser = new qx.ui.menu.Button("File Browser");
+		 let BtnLogCalender = new qx.ui.menu.Button("Log Entry Calender");
+		 let BtnLogTable = new qx.ui.menu.Button("Log Entry Table");
+		 let BtnLogging = new qx.ui.menu.Button("Logging Config");
+		 let BtnMessage = new qx.ui.menu.Button("Message Log");
+		 let BtnSave = new qx.ui.menu.Button("Save and Restore");
+		 let BtnEmail = new qx.ui.menu.Button("Send Email");
+		 let BtnLogBook = new qx.ui.menu.Button("Send To Log Book");
 		
 		
 	      menu.add(BtnConsole);
@@ -1203,9 +1204,9 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 		getResourcesMenu8:function(){
 		
-		 var menu = new qx.ui.menu.Menu();
+		 let menu = new qx.ui.menu.Menu();
 		 
-		 var ChkDataBrowser = new qx.ui.menu.CheckBox("Data Browser");
+		 let ChkDataBrowser = new qx.ui.menu.CheckBox("Data Browser");
 		ChkDataBrowser.setValue(true);
 	      menu.add(ChkDataBrowser);
 
@@ -1214,7 +1215,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 		getResourcesMenu9:function(){
 		
-		 var menu = new qx.ui.menu.Menu();
+		 let menu = new qx.ui.menu.Menu();
 		 /*
 		 ESTA OPCION EN PHOEBUS ESTA DESABILITADA
 		      var ChkDataBrowser = new qx.ui.menu.CheckBox("Data Browser");
@@ -1225,11 +1226,11 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 		getResources2Menu1:function(){
 		
-		var menu = new qx.ui.menu.Menu();
-		var btnMenuOpciones2Top11 = new qx.ui.menu.Button("Example Display");
-	     	var btnMenuOpciones2Top12 = new qx.ui.menu.Button("Probe Example");
-	     	var btnMenuOpciones2Top13 = new qx.ui.menu.Button("PV Table Example");
-	     	var btnMenuOpciones2Top14 = new qx.ui.menu.Button("Google");
+		let menu = new qx.ui.menu.Menu();
+		let btnMenuOpciones2Top11 = new qx.ui.menu.Button("Example Display");
+	     	let btnMenuOpciones2Top12 = new qx.ui.menu.Button("Probe Example");
+	     	let btnMenuOpciones2Top13 = new qx.ui.menu.Button("PV Table Example");
+	     	let btnMenuOpciones2Top14 = new qx.ui.menu.Button("Google");
 	     	
 	     	//aqui van los eventos de esos botones
 	     	
@@ -1250,23 +1251,42 @@ qx.Class.define("myejemplo.SplitScreen", {
   		cont.addListener("contextmenu", function(e){
   		
   		 
-      		var menu = new qx.ui.menu.Menu();
+      		let menu = new qx.ui.menu.Menu();
   		menu.setOpener(cont);
   		
-  		var btn1 = new qx.ui.menu.Button("Hide Toolbar");
-  		var btn2 = new qx.ui.menu.Button("Add PV");
-  		var btn3 = new qx.ui.menu.Button("Add Formula");
-  		var btn4 = new qx.ui.menu.Button("Import csv");
-  		var btn5 = new qx.ui.menu.Button("Print...");
-  		var btn6 = new qx.ui.menu.Button("Save Snapshot");
-  		var btn7 = new qx.ui.menu.Button("Create Log");
-  		var btn8 = new qx.ui.menu.Button("Send Email");
-  		var btn9 = new qx.ui.menu.Button("Open Archive Search Panel");
-  		var btn10 = new qx.ui.menu.Button("Open Properties Panel");
-  		var btn11 = new qx.ui.menu.Button("Open Data Export Panel");
-  		var btn12 = new qx.ui.menu.Button("Inspect Samples");
-  		var btn13 = new qx.ui.menu.Button("Inspect Waveforms");
-  		var btn14 = new qx.ui.menu.Button("Refresh");
+  		let btn1 = new qx.ui.menu.Button("Hide Toolbar");
+  		let btn2 = new qx.ui.menu.Button("Add PV");
+  		let btn3 = new qx.ui.menu.Button("Add Formula");
+  		let btn4 = new qx.ui.menu.Button("Import csv");
+  		let btn5 = new qx.ui.menu.Button("Print...");
+  		let btn6 = new qx.ui.menu.Button("Save Snapshot");
+  		let btn7 = new qx.ui.menu.Button("Create Log");
+  		let btn8 = new qx.ui.menu.Button("Send Email");
+  		let btn9 = new qx.ui.menu.Button("Open Archive Search Panel");
+  		let btn10 = new qx.ui.menu.Button("Open Properties Panel");
+  		let btn11 = new qx.ui.menu.Button("Open Data Export Panel");
+  		let btn12 = new qx.ui.menu.Button("Inspect Samples");
+  		let btn13 = new qx.ui.menu.Button("Inspect Waveforms");
+  		let btn14 = new qx.ui.menu.Button("Refresh");
+		
+		
+		//eventos de los botones de1 al 14
+		btn1.addListener("execute", function(e){});
+		btn2.addListener("execute", function(e){});
+		btn3.addListener("execute", function(e){});
+		btn4.addListener("execute", function(e){});
+		btn5.addListener("execute", function(e){});
+		btn6.addListener("execute", function(e){});
+		btn7.addListener("execute", function(e){});
+		btn8.addListener("execute", function(e){});
+		btn9.addListener("execute", function(e){});
+		btn10.addListener("execute", function(e){});
+		btn11.addListener("execute", function(e){});
+		btn12.addListener("execute", function(e){});
+		btn13.addListener("execute", function(e){});
+		btn14.addListener("execute", function(e){});
+		
+		
 		
 		menu.add(btn1);
 		menu.add(new qx.ui.menu.Separator());
@@ -1290,6 +1310,126 @@ qx.Class.define("myejemplo.SplitScreen", {
   		});
   	
   	
+  	},
+  	
+  	windowConfig1:function(btnImg, scroll){
+  	
+  		let win = new myejemplo.WindowImg("Runtime Settings");
+  		win.setLayout(new qx.ui.layout.VBox());
+  		let winCont = new qx.ui.container.Composite(new qx.ui.layout.Grid(15, 15));
+  		let text1 = new qx.ui.form.TextField();
+  			text1.setWidth(135);
+  			text1.setValue("5.132075471698114");
+  		let text2 = new qx.ui.form.TextField();
+  			text2.setWidth(135);
+  			text2.setValue("5.132075471698114");
+  		
+  	let grouplabel1 = new qx.ui.groupbox.GroupBox();	
+  		grouplabel1.setLayout(new qx.ui.layout.HBox());
+  		grouplabel1.add(new qx.ui.basic.Label("CHANGE PLOT RUNTIME SETTINGS"));
+  	
+  	
+  	//inicio de groupCheck	
+      	let groupCheck = new qx.ui.groupbox.GroupBox("Options");
+      	 groupCheck.setLayout(new qx.ui.layout.VBox(10));
+  	
+  	
+  	let autoScale = new qx.ui.form.CheckBox("Auto-scale");
+  		autoScale.addListener("changeValue", function (e) {
+		
+		if(e.getData()){
+			text1.setEnabled(false);
+			text2.setEnabled(false);
+		}else{
+			text1.setEnabled(true);
+			text2.setEnabled(true);
+		}
+	      });
+	      
+	    groupCheck.add(autoScale);
+	    
+	    let visible = new qx.ui.form.CheckBox("Visible");
+	    visible.setValue(true);
+  		
+  		visible.addListener("changeValue", function (e) {
+		
+		if(e.getData()){
+			scroll.setVisibility("visible");
+		}else{
+			scroll.setVisibility("hidden");
+		}
+	      });
+	      
+	    groupCheck.add(visible);
+	    
+	    let logScale = new qx.ui.form.CheckBox("Log scale");
+	 
+  		logScale.addListener("changeValue", function (e) {
+		
+		if(e.getData()){
+		//logica
+		}else{
+		//logica
+		}
+	      });
+	      
+	    groupCheck.add(logScale);
+  	
+  		let showTraceNames = new qx.ui.form.CheckBox("Show Trace Names");
+	 
+  		showTraceNames.addListener("changeValue", function (e) {
+		
+		if(e.getData()){
+		//logica
+		}else{
+		//logica
+		}
+	      });
+	      
+	    groupCheck.add(showTraceNames);
+  	///fin del groupCheck
+  	
+  	let groupTraces = new qx.ui.groupbox.GroupBox("Traces");
+  		groupTraces.setLayout(new qx.ui.layout.VBox(10));	
+  		
+  	let groupHorAxis = new qx.ui.groupbox.GroupBox("Horizontal Axis");
+  		groupHorAxis.setLayout(new qx.ui.layout.VBox(10));
+  		
+  	let btnCloseWinCont = new qx.ui.form.Button("Close");
+  	
+  		btnCloseWinCont.addListener("execute", function(e){
+  		
+  			win.close();
+  		});
+  		
+  		
+  		
+  		winCont.add(grouplabel1, { row: 0, column: 0, colSpan: 17});
+  		
+  		winCont.add(new qx.ui.basic.Label("Value Axes"), { row: 1, column: 1});
+  		winCont.add(new qx.ui.basic.Label("Axis Name"), { row: 2, column: 1});
+  		winCont.add(new qx.ui.basic.Label("Value"), { row: 2, column: 2});
+  		winCont.add(new qx.ui.basic.Label("Start, End:"), { row: 3, column: 1});
+  		winCont.add(text1, { row: 3, column: 2});
+  		winCont.add(text2, { row: 3, column: 3});
+  		winCont.add(groupCheck, { row: 4, column: 1});
+  		//winCont.add(groupHorAxis, { row: 4, column: 2});
+  		winCont.add(groupTraces, { row: 4, column: 2, colSpan: 15});
+  		winCont.add(btnCloseWinCont, { row: 5, column: 15});
+  		
+  		win.getChildrenContainer().add(winCont);	
+  		btnImg.addListener("execute", function(){
+
+  			
+  				//Verifica si la ventana esta activa para no repetir la ventana
+  				if(!win.isActive()){
+  				
+  					
+  					win.open();
+  				}
+  				
+  		
+  		});
   	}
 		
 	}
