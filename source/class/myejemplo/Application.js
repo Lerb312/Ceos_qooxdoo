@@ -22,12 +22,12 @@ qx.Class.define("myejemplo.Application", {
       }
 
       // Crea una instancia de test.SplitScreen
-      var splitScreen = new myejemplo.SplitScreen();
+      let splitScreen = new myejemplo.SplitScreen();
       //var searchWindow = new myejemplo.SearchWindow();
       
 
       // Añade splitScreen al documento principal
-      var root = this.getRoot()
+      let root = this.getRoot()
       root.add(splitScreen, { edge: 0 });
       //root.add(searchWindow)
     },
