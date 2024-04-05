@@ -6,7 +6,7 @@ qx.Class.define("myejemplo.TrendTable", {
   construct: function (columnas) {
     this.base(arguments);
     // table model config
-    var tableModel = new qx.ui.table.model.Simple();
+    let tableModel = new qx.ui.table.model.Simple();
     tableModel.setColumnSortable(1, false);
     tableModel.setColumns(columnas);
    
@@ -22,10 +22,10 @@ qx.Class.define("myejemplo.TrendTable", {
   		this.addListener("contextmenu", function(e){
   		
   		 
-      		var menu = new qx.ui.menu.Menu();
+      		let menu = new qx.ui.menu.Menu();
   		menu.setOpener(this);
   		
-  		var btn1 = new qx.ui.menu.Button("Add Axis");
+  		let btn1 = new qx.ui.menu.Button("Add Axis");
 		
 		menu.add(btn1);
 		

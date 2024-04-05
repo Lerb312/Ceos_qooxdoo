@@ -2,16 +2,16 @@ qx.Class.define("myejemplo.SearchWindow", {
   extend: qx.ui.window.Window,
 
   construct: function () {
-    var win = new qx.ui.window.Window("Browser");
+    let win = new qx.ui.window.Window("Browser");
     win.setLayout(new qx.ui.layout.VBox(10));
     win.setStatus("Application is ready");
     win.open();
     //win.add(win, { left: 350, top: 120 });
 
-    var atom = new qx.ui.basic.Atom("Search");
+    let atom = new qx.ui.basic.Atom("Search");
     win.add(atom);
 
-    var box = new qx.ui.container.Composite();
+    let box = new qx.ui.container.Composite();
     box.setLayout(new qx.ui.layout.HBox(10));
     win.add(box, { flex: 1 });
     // props
@@ -75,11 +75,11 @@ qx.Class.define("myejemplo.SearchWindow", {
     // });
     // basicSettings.add(showStatusbar);
 
-    var resize = new qx.ui.groupbox.GroupBox("Tag filter");
+    let resize = new qx.ui.groupbox.GroupBox("Tag filter");
     resize.setLayout(new qx.ui.layout.VBox(4));
     box.add(resize, { flex: 1 });
 
-    var button = new qx.ui.form.ToggleButton(
+    let button = new qx.ui.form.ToggleButton(
       "Toggle Button"
       //"icon/22/apps/internet-web-browser.png"
     );
@@ -102,10 +102,10 @@ qx.Class.define("myejemplo.SearchWindow", {
     // resize.add(resizeFrame);
 
     // Get edges to NO resize, for allow change value to TRUE.
-    var edges = ["left", "right"];
-    for (var i = 0; i < edges.length; i++) {
-      var edge = edges[i];
-      var resizable = new qx.ui.form.CheckBox("Resizable " + edge).set({
+    let edges = ["left", "right"];
+    for (let i = 0; i < edges.length; i++) {
+      let edge = edges[i];
+      let resizable = new qx.ui.form.CheckBox("Resizable " + edge).set({
         value: false,
       });
 
