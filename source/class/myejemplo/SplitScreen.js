@@ -20,188 +20,10 @@ qx.Class.define("myejemplo.SplitScreen", {
      topComponent.setMinHeight(200);
      topComponent.setMaxHeight(550); 
      
-     //Contenedor principal del tabview
-     //var contenedorMainTop = new qx.ui.container.Composite(new qx.ui.layout.VBox());
      
-     
-     //////////////////////menubar parte de arriba//////
-     
-     //MenuBar para el graph1
-     var menuBarTop1 = new qx.ui.menubar.MenuBar();
-     var menuBarTop2 = new qx.ui.menubar.MenuBar();	
-     
-     	//Menu que contiene los botones de opciones del menuBarTop1
-     	var menuOpcionesTop1 = new qx.ui.menu.Menu();
-     	var menuOpcionesTop2 = new qx.ui.menu.Menu();
-     	var menuOpcionesTop3 = new qx.ui.menu.Menu();
-     	var menuOpcionesTop4 = new qx.ui.menu.Menu();
-     	///////fin de los menus del menuBarTop1
-     	
-     	//menuOpcionesTop1
-     	var btnMenuOpcionesTop11 = new qx.ui.menu.Button("Open");
-     	var btnMenuOpcionesTop12 = new qx.ui.menu.Button("Open with...");
-     	var btnMenuOpcionesTop13 = new qx.ui.menu.Button(
-     	
-     	"Top Resources",
-     	null, null, this.getResourcesMenu());
-     	var btnMenuOpcionesTop14 = new qx.ui.menu.Button("Save");
-     	var btnMenuOpcionesTop15 = new qx.ui.menu.Button("Save As ...");
-     	var btnMenuOpcionesTop16 = new qx.ui.menu.Button("Exit");
-     	
-     		////////////////menuOpcionesTop1
-     		menuOpcionesTop1.add(btnMenuOpcionesTop11);
-     		menuOpcionesTop1.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop1.add(btnMenuOpcionesTop12);
-     		menuOpcionesTop1.add(new qx.ui.menu.Separator());//linea separadora de opciones
-     		menuOpcionesTop1.add(btnMenuOpcionesTop13);
-     		menuOpcionesTop1.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop1.add(btnMenuOpcionesTop14);
-     		menuOpcionesTop1.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop1.add(btnMenuOpcionesTop15);
-     		menuOpcionesTop1.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop1.add(btnMenuOpcionesTop16);
-     		////////////fin del menuOpcionesTop1
-     		
-     		//menuOpcionesTop2
-     		var btnMenuOpcionesTop21 = new qx.ui.menu.Button(
-	     	"Alarms",
-	     	null, null, this.getResourcesMenu2());
-	     	
-	     	var btnMenuOpcionesTop22 = new qx.ui.menu.Button(
-	     	"Channel",
-	     	null, null, this.getResourcesMenu3());
-	     	
-	     	var btnMenuOpcionesTop23 = new qx.ui.menu.Button(
-	     	"Debug",
-	     	null, null, this.getResourcesMenu4());
-	     	
-	     	var btnMenuOpcionesTop24 = new qx.ui.menu.Button(
-	     	"Display",
-	     	null, null, this.getResourcesMenu5());
-	     	
-	     	var btnMenuOpcionesTop25 = new qx.ui.menu.Button(
-	     	"Scan",
-	     	null, null, this.getResourcesMenu6());
-	     	
-	     	var btnMenuOpcionesTop26 = new qx.ui.menu.Button(
-	     	"Utility",
-	     	null, null, this.getResourcesMenu7());
-	     	
-     		menuOpcionesTop2.add(btnMenuOpcionesTop21);
-     		menuOpcionesTop2.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop2.add(btnMenuOpcionesTop22);
-     		menuOpcionesTop2.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop2.add(btnMenuOpcionesTop23);
-     		menuOpcionesTop2.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop2.add(btnMenuOpcionesTop24);
-     		menuOpcionesTop2.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop2.add(btnMenuOpcionesTop25);
-     		menuOpcionesTop2.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop2.add(btnMenuOpcionesTop26);
-     		//////////fin del menuOpcionesTop2
-     		
-     		///////MenuOpcionesTop3
-     		var ChkShowTabs= new qx.ui.menu.CheckBox("Always Show Tabs");
-     		var ChkShoToolbar= new qx.ui.menu.CheckBox("Show Toolbar");
-     		var ChkShowStatus= new qx.ui.menu.CheckBox("Show Status bar");
-     		
-     		ChkShowTabs.setValue(true);
-     		ChkShoToolbar.setValue(true);
-     		ChkShowStatus.setValue(true);
-     		
-     		var btnMenuOpcionesTop31 = new qx.ui.menu.Button(
-	     	"Select Tab",
-	     	null, null, this.getResourcesMenu8());
-     		
-     		var BtnCloseAll= new qx.ui.menu.Button("Close All Tabs       Ctrl+Shift+F4 ");
-     		var BtnSaveLayout= new qx.ui.menu.Button("Save Layout As...");
-     		
-     		var btnMenuOpcionesTop32 = new qx.ui.menu.Button(
-	     	"Load Layout",
-	     	null, null, this.getResourcesMenu9());
-     		
-     		var btnMenuOpcionesTop33 = new qx.ui.menu.Button(
-	     	"Add Layout",
-	     	null, null, this.getResourcesMenu9());
-	     	
-	     	var BtnDeleteLayout= new qx.ui.menu.Button("Delete Layout");
-	     	BtnDeleteLayout.setEnabled(false);//permanece deshabilitado porque no hay layout activo
-	     	
-	     	var btnFullScreen= new qx.ui.menu.Button("Full Screen");
-	     	
-     		menuOpcionesTop3.add(ChkShowTabs);
-     		menuOpcionesTop3.add(ChkShoToolbar);
-     		menuOpcionesTop3.add(ChkShowStatus);
-     		menuOpcionesTop3.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop3.add(btnMenuOpcionesTop31);
-     		menuOpcionesTop3.add(BtnCloseAll);
-     		menuOpcionesTop3.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop3.add(BtnSaveLayout);
-     		menuOpcionesTop3.add(btnMenuOpcionesTop32);
-     		menuOpcionesTop3.add(btnMenuOpcionesTop33);
-     		menuOpcionesTop3.add(BtnDeleteLayout);
-     		menuOpcionesTop3.add(new qx.ui.menu.Separator());
-     		menuOpcionesTop3.add(btnFullScreen);
-     		/////////////////////fin del menuOpcionesTop3
-     		
-     		
-     		//////////////menuOpcionesTop4
-     		var BtnAbout= new qx.ui.menu.Button("About");
-     		var BtnHelp= new qx.ui.menu.Button("Help");
-     		
-     		menuOpcionesTop4.add(BtnAbout);
-     		menuOpcionesTop4.add(BtnHelp);
-     		/////////////////fin  del menuOpcionesTop4
-     		/////////////////////////////////////////////
-     	//Boton dentro del menuBar1
-     	var btnMenuBarTop1 = new qx.ui.menubar.Button("File", null ,menuOpcionesTop1);
-     	var btnMenuBarTop2 = new qx.ui.menubar.Button("Applications", null ,menuOpcionesTop2);
-     	var btnMenuBarTop3 = new qx.ui.menubar.Button("Window", null ,menuOpcionesTop3);
-     	var btnMenuBarTop4 = new qx.ui.menubar.Button("Help", null ,menuOpcionesTop4);
-     	
-     	//menuBar1 añade a btnMenuBar
-     	menuBarTop1.add(btnMenuBarTop1);
-     	menuBarTop1.add(btnMenuBarTop2);
-     	menuBarTop1.add(btnMenuBarTop3);
-     	menuBarTop1.add(btnMenuBarTop4);
-     	
-     	//////////fin del menuBarTop1
-     	var btnMenuOpcionesTop33 = new qx.ui.menu.Button(
-	     	"Add Layout",
-	     	null, null, this.getResourcesMenu9());
-     	
-     	
-     	////////////////////menuBarTop2
-
-     	
-     	//Opciones del menuOpciones2Top1
-     	var btnMenuBarTop21 = new qx.ui.menubar.Button("Imagen Casa");
-     	var btnMenuBarTop22 = new qx.ui.menubar.Button("carpeta", null ,this.getResources2Menu1());
-     	var btnMenuBarTop23 = new qx.ui.menubar.Button("Imagen celdas");
-     	var btnMenuBarTop24 = new qx.ui.menubar.Button("otra Imagen");
-     	var btnMenuBarTop25 = new qx.ui.menubar.Button("otra imagen 2");
-     	
-     	
-     	btnMenuBarTop21.addListener("execute", function(e){
-     	//logica
-     	});
-     	
-     	
-    
-     	menuBarTop2.add(btnMenuBarTop21);
-     	menuBarTop2.add(btnMenuBarTop22);
-     	menuBarTop2.add(btnMenuBarTop23);
-     	menuBarTop2.add(btnMenuBarTop24);
-     	menuBarTop2.add(btnMenuBarTop25);
-     	
-     	
-     	///////////////////fin del menuBarTop2
-     	
-     	//contenedorMainTop.add(menuBarTop1);
-     	//contenedorMainTop.add(menuBarTop2);
-     //////////////////////////////////////////////////
      //contenedorMainTop.add(topComponent);
-     var graph1 = new qx.ui.tabview.Page("Trend 1");
+     var graph1 = new qx.ui.tabview.Page("Data Browser");
+     graph1.setShowCloseButton(true);
      graph1.setLayout(new qx.ui.layout.Grid(30, 25));
      
      //Container compatible con el graph1 que contendra el grafico de echarts
@@ -216,31 +38,35 @@ qx.Class.define("myejemplo.SplitScreen", {
      //MenuBar para el graph1
      var menuBar1 = new qx.ui.menubar.MenuBar();	
      
+     
+     	
+     		
      		
      	//Boton dentro del menuBar1
-     	var btnMenuBar1 = new qx.ui.menubar.Button("Img1");
-     	var btnMenuBar2 = new qx.ui.menubar.Button("Img2");
-     	var btnMenuBar3 = new qx.ui.menubar.Button("Img3");
-     	var btnMenuBar4 = new qx.ui.menubar.Button("Img4");
-     	var btnMenuBar5 = new qx.ui.menubar.Button("Img5");
-     	var btnMenuBar6 = new qx.ui.menubar.Button("Img6");
-     	var btnMenuBar7 = new qx.ui.menubar.Button("Img7");
-     	var btnMenuBar8 = new qx.ui.menubar.Button("Img8");
-     	var btnMenuBar9 = new qx.ui.menubar.Button("Img9");
-     	var btnMenuBar10 = new qx.ui.menubar.Button("Img10");
-     	var btnMenuBar11 = new qx.ui.menubar.Button("Img11");
-     	var btnMenuBar12 = new qx.ui.menubar.Button("Img12");
-     	var btnMenuBar13 = new qx.ui.menubar.Button("Img13");
+     	let btnMenuBar1 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/configure.png");
+   	let btnMenuBar2 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/add_annotation.png");
+     	let btnMenuBar3 = new qx.ui.menubar.Button(null,"myejemplo/imagenes/edit_annotation.png");
+     	var btnMenuBar4 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/crosshair.png");
+     	var btnMenuBar5 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/stagger.png");
+     	var btnMenuBar6 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_in.png");
+     	var btnMenuBar7 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_out.png");
+     	var btnMenuBar8 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/pan.png");
+     	var btnMenuBar9 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/pointer.png");
+     	var btnMenuBar10 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/undo.png");
+     	var btnMenuBar11 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/redo.png");
+     	var btnMenuBar12 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/scroll_on.png");
+     	var btnMenuBar13 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/time_range.png");
      	
      	
      	btnMenuBar3.setEnabled(false);
+     	btnMenuBar4.setEnabled(false);
      	btnMenuBar11.setEnabled(false);
-     	
+     
      	//eventos de los botones btnMenuBar del 1 al 13
      	
       this.windowConfig1(btnMenuBar1, scroller);
-     	
-     	btnMenuBar2.addListener("execute", function(e){});
+      this.addAnotation(btnMenuBar2);
+   	
      	btnMenuBar3.addListener("execute", function(e){});
      	btnMenuBar4.addListener("execute", function(e){});
      	btnMenuBar5.addListener("execute", function(e){});
@@ -256,7 +82,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      	
      	//menuBar1 añade a btnMenuBar
      	menuBar1.add(btnMenuBar1);
-     	menuBar1.add(btnMenuBar2);
+	menuBar1.add(btnMenuBar2);
      	menuBar1.add(btnMenuBar3);
      	menuBar1.add(btnMenuBar4);
      	menuBar1.add(btnMenuBar5);
@@ -268,7 +94,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      	menuBar1.add(btnMenuBar11);
      	menuBar1.add(btnMenuBar12);
      	menuBar1.add(btnMenuBar13);
-     	
+     
    //------------------------------------------------------------------------------------//
    	 //CREACION DEL GRAFICO DENTRO //------//
    	 
@@ -313,7 +139,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 
       }, this); 
       
-       graph1.add(menuBar1, {row: 0, column: 0});
+       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
       graph1.add(scroller, {row: 2, column: 0, colSpan: 150});
       
       this.mouseEventTable(scroller);
@@ -322,7 +148,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     var graph2 = new qx.ui.tabview.Page("Trend 2");
     graph2.setShowCloseButton(true);
     topComponent.add(graph1);
-    topComponent.add(graph2);
+   // topComponent.add(graph2);
 
     
     // SplitScreen BOTTOM component
@@ -1043,208 +869,6 @@ qx.Class.define("myejemplo.SplitScreen", {
     });
 		},
 		
-		getResourcesMenu:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var BtnExampleDisplay = new qx.ui.menu.Button("Example Displays");
-		 var BtnProbeExample = new qx.ui.menu.Button("Probe Example");
-		 var BtnPvTableEx = new qx.ui.menu.Button("PV  Table Example");
-		 var BtnGoogle = new qx.ui.menu.Button("Google");
-		
-      menu.add(BtnExampleDisplay);
-      menu.add(BtnProbeExample);
-      menu.add(BtnPvTableEx);
-      menu.add(BtnGoogle);
-      
-       return menu;
-		},
-		
-		getResourcesMenu2:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var BtnAlarmPanel = new qx.ui.menu.Button("Alarm Area Panel");
-		 var BtnAlarmLogPanel = new qx.ui.menu.Button("Alarm Log Panel");
-		 var BtnAlarmTable = new qx.ui.menu.Button("Alarm Table");
-		 var BtnAlarmTree = new qx.ui.menu.Button("Alarm Tree");
-		 var BtnAnnunciator = new qx.ui.menu.Button("Annunciator");
-		
-	      menu.add(BtnAlarmPanel);
-	      menu.add(BtnAlarmLogPanel);
-	      menu.add(BtnAlarmTable);
-	      menu.add(BtnAlarmTree);
-	      menu.add(BtnAnnunciator);
-       return menu;
-		},
-		
-		getResourcesMenu3:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var BtnChannelTable = new qx.ui.menu.Button("Channel Table");
-		 var BtnChannelTree = new qx.ui.menu.Button("Channel Tree");
-		
-		
-	      menu.add(BtnChannelTable);
-	      menu.add(BtnChannelTree);
-
-       return menu;
-		},
-		
-			getResourcesMenu4:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var BtnActiveJobs = new qx.ui.menu.Button("Active Jobs");
-		 var BtnErrorLogs = new qx.ui.menu.Button("Error Logs");
-		 var BtnFormulTree = new qx.ui.menu.Button("Formula Tree");
-		 var BtnPVList = new qx.ui.menu.Button("PV List");
-		 var BtnPerformanceMonitor = new qx.ui.menu.Button("Performance Monitor");
-		 var BtnPhoebusDiagnostics = new qx.ui.menu.Button("Phoebus Diagnostics");//xD cambiar por ceos xD jjaaj
-		
-			
-	      menu.add(BtnActiveJobs);
-	      menu.add(BtnErrorLogs);
-	      menu.add(BtnFormulTree);
-	      menu.add(BtnPVList);
-	      menu.add(BtnPerformanceMonitor);
-	      menu.add(BtnPhoebusDiagnostics);
-
-	       return menu;
-		},
-		
-		getResourcesMenu5:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var Btn3DViewer = new qx.ui.menu.Button("3D Viewer");
-		 var BtnDataBrowser = new qx.ui.menu.Button("Data Browser");
-		 var BtnNewDisplay = new qx.ui.menu.Button("New Display");
-		 var BtnPVTable = new qx.ui.menu.Button("PV Table");
-		 var BtnPVTree = new qx.ui.menu.Button("PV Tree");
-		 var BtnProbe = new qx.ui.menu.Button("Probe");
-		 
-	
-		var BtnExample = new qx.ui.menu.Button(
-	     	"Example",
-	     	null, null, this.getResourcesMenuExample());
-		
-	
-		
-	      menu.add(Btn3DViewer);
-	      menu.add(BtnDataBrowser);
-	      menu.add(BtnNewDisplay);
-	      menu.add(BtnPVTable);
-	      menu.add(BtnPVTree);
-	      menu.add(BtnProbe);
-	      menu.add(BtnExample);
-	       
-
-       return menu;
-		},
-		
-		getResourcesMenuExample:function(){
-		
-		 var menu = new qx.ui.menu.Menu();
-		 
-		 var BtnInstall3DViewer = new qx.ui.menu.Button("Install Example 3D Viewer Files");
-		 var BtnInstallExample = new qx.ui.menu.Button("Install Example Displays");
-		
-		
-	      menu.add(BtnInstall3DViewer);
-	      menu.add(BtnInstallExample);
-
-       return menu;
-		},
-		
-		getResourcesMenu6:function(){
-		
-		 let menu = new qx.ui.menu.Menu();
-		 
-		 let BtnScanEditor = new qx.ui.menu.Button("Scan Editor");
-		 let BtnMonitor = new qx.ui.menu.Button("Scan Monitor");
-		
-		
-	      menu.add(BtnScanEditor);
-	      menu.add(BtnMonitor);
-
-       return menu;
-		},
-		
-		getResourcesMenu7:function(){
-		
-		 let menu = new qx.ui.menu.Menu();
-		 
-		 let BtnConsole = new qx.ui.menu.Button("Console");
-		 let BtnDisplay= new qx.ui.menu.Button("Display Navigation View");
-		 let BtnFileBrowser = new qx.ui.menu.Button("File Browser");
-		 let BtnLogCalender = new qx.ui.menu.Button("Log Entry Calender");
-		 let BtnLogTable = new qx.ui.menu.Button("Log Entry Table");
-		 let BtnLogging = new qx.ui.menu.Button("Logging Config");
-		 let BtnMessage = new qx.ui.menu.Button("Message Log");
-		 let BtnSave = new qx.ui.menu.Button("Save and Restore");
-		 let BtnEmail = new qx.ui.menu.Button("Send Email");
-		 let BtnLogBook = new qx.ui.menu.Button("Send To Log Book");
-		
-		
-	      menu.add(BtnConsole);
-	      menu.add(BtnDisplay);
-	      menu.add(BtnFileBrowser);
-	      menu.add(BtnLogCalender);
-	      menu.add(BtnLogTable);
-	      menu.add(BtnLogging);
-	      menu.add(BtnMessage);
-	      menu.add(BtnSave);
-	      menu.add(BtnEmail);
-	      menu.add(BtnLogBook);
-
-       return menu;
-		},
-		
-		getResourcesMenu8:function(){
-		
-		 let menu = new qx.ui.menu.Menu();
-		 
-		 let ChkDataBrowser = new qx.ui.menu.CheckBox("Data Browser");
-		ChkDataBrowser.setValue(true);
-	      menu.add(ChkDataBrowser);
-
-       return menu;
-		},
-		
-		getResourcesMenu9:function(){
-		
-		 let menu = new qx.ui.menu.Menu();
-		 /*
-		 ESTA OPCION EN PHOEBUS ESTA DESABILITADA
-		      var ChkDataBrowser = new qx.ui.menu.CheckBox("Data Browser");
-		      menu.add(ChkDataBrowser);
-		*/
-       return menu;
-		},
-		
-		getResources2Menu1:function(){
-		
-		let menu = new qx.ui.menu.Menu();
-		let btnMenuOpciones2Top11 = new qx.ui.menu.Button("Example Display");
-	     	let btnMenuOpciones2Top12 = new qx.ui.menu.Button("Probe Example");
-	     	let btnMenuOpciones2Top13 = new qx.ui.menu.Button("PV Table Example");
-	     	let btnMenuOpciones2Top14 = new qx.ui.menu.Button("Google");
-	     	
-	     	//aqui van los eventos de esos botones
-	     	
-	     	btnMenuOpciones2Top11.addListener("execute", function(e){});
-	     	btnMenuOpciones2Top12.addListener("execute", function(e){});
-	     	btnMenuOpciones2Top13.addListener("execute", function(e){});
-	     	btnMenuOpciones2Top14.addListener("execute", function(e){});
-	     	
-	     	menu.add(btnMenuOpciones2Top11);
-	     	menu.add(btnMenuOpciones2Top12);
-	     	menu.add(btnMenuOpciones2Top13);
-	     	menu.add(btnMenuOpciones2Top14);
-       return menu;
-		},
 		
 		mouseEventTable:function(cont){
   	
@@ -1430,6 +1054,36 @@ qx.Class.define("myejemplo.SplitScreen", {
   				
   		
   		});
+  	},
+  	
+  	activePan: function(btnBar){
+  		//se cambia la forma del cursor por el de mini-pan y que genere efecto de 
+  	},
+  	
+  	addAnotation: function(btnAdd){
+  		btnAdd.addListener("execute", function(e){
+  		
+  			let win = new myejemplo.WindowImg("Add Annotation");
+  			win.setLayout(new qx.ui.layout.VBox());
+  			let winCont = new qx.ui.container.Composite(new qx.ui.layout.Grid(15, 15));
+  			
+  			
+  			
+  			//Verifica si la ventana esta activa para no repetir la ventana
+  				if(!win.isActive()){	
+  					win.open();
+  				}
+  				
+  				
+  			winCont.add(new qx.ui.basic.Label("Select trace to which annotation will be added, then adjust content of annotation as desired."), { row: 0, column: 0, colSpan: 40});
+  		
+  			winCont.add(new qx.ui.basic.Label("Trace"), {row: 1, column: 0});
+  			winCont.add(new qx.ui.form.TextArea(), {row: 1, column: 1, colSpan: 30});
+  		
+  		win.getChildrenContainer().add(winCont);
+  		});
+  		
+  	
   	}
 		
 	}
