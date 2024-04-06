@@ -61,12 +61,13 @@ qx.Class.define("myejemplo.SplitScreen", {
      	btnMenuBar3.setEnabled(false);
      	btnMenuBar4.setEnabled(false);
      	btnMenuBar11.setEnabled(false);
-     
+        btnMenuBar5.setEnabled(false);
+        btnMenuBar8.setEnabled(false);
      	//eventos de los botones btnMenuBar del 1 al 13
      	
       this.windowConfig1(btnMenuBar1, scroller);
       this.addAnotation(btnMenuBar2);
-   	
+      this.openTimeDialog(btnMenuBar13);
      	btnMenuBar3.addListener("execute", function(e){});
      	btnMenuBar4.addListener("execute", function(e){});
      	btnMenuBar5.addListener("execute", function(e){});
@@ -198,7 +199,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color", "Cursor Value", "Scan Period", "Buffer Size", "Axis", "Trace Type", "Width", "Style", "Point", "Size", "Request", "Index"];
     		
     		//añadiendo su tabla respectiva
-    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla);
+    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace");
              
     //valida si la tabla no posee elementos. En caso que si este vacia, se muestra a un lado de la tabla en letras rojas el mensaje "No hay trazas"       
      if(trendTable.getTableModel().getData().length === 0){
@@ -311,20 +312,26 @@ qx.Class.define("myejemplo.SplitScreen", {
      
      
      //evento del boton para escoger la fecha
+     let wind1 = new qx.ui.window.Window("Get Date");
+     let btnWindAceptar1 = new qx.ui.form.Button("Aceptar");
+     
      	btnChooser.addListener("execute", function(e){
      	//ventana que sirve para mostrar el seleccionador de fechas y su boton aceptar
-     	let wind = new qx.ui.window.Window("Get Date");
-	let btnWindAceptar = new qx.ui.form.Button("Aceptar");
+     	
 	
-     	wind.setLayout(new qx.ui.layout.VBox());
-     	wind.add(chooserDate);
-     	wind.setCenterOnAppear(true);
-     	wind.setShowMaximize(false);
-	wind.setShowMinimize(false);
-	wind.setShowClose(false);
-	wind.open();
-	wind.add(btnWindAceptar);
+     	wind1.setLayout(new qx.ui.layout.VBox());
+     	wind1.add(chooserDate);
+     	wind1.setCenterOnAppear(true);
+     	wind1.setShowMaximize(false);
+	wind1.setShowMinimize(false);
+	wind1.setShowClose(false);
 	
+	
+	wind1.add(btnWindAceptar1);
+	if(!wind1.isActive()){
+	
+		wind1.open();
+	}
 	//evento que permite cambiar el valor a obtener del seleccionador de fechas
 	
 	chooserDate.addListener("changeValue", function(e){
@@ -337,14 +344,16 @@ qx.Class.define("myejemplo.SplitScreen", {
 		labelResumen.setValue(año+"/"+mes+"/"+dia );
 		
 	//evento del boton aceptar	
-	btnWindAceptar.addListener("execute", function(e){
+	btnWindAceptar1.addListener("execute", function(e){
 		
-		wind.close();
+		wind1.close();
 		});
 	});
      
      	});		
      	
+     	
+	
      	//evento que permite resetear el tiempo hh/min/sec
      	btnResetTime.addListener("execute", function(e){
 		spinnerHora.resetValue();
@@ -477,25 +486,36 @@ qx.Class.define("myejemplo.SplitScreen", {
       let añoEnd=0; 
       let mesEnd=0;
       let diaEnd=0;
+      let wind2 = new qx.ui.window.Window("Get Date");
+  
+	let btnWindAceptar2 = new qx.ui.form.Button("Aceptar");
+	
      btnChooser_2.addListener("execute", function(e){
      
-     let wind = new qx.ui.window.Window("Get Date");
-     let btnWindAceptar = new qx.ui.form.Button("Aceptar");
+     
+     	
+     	
+     	wind2.setLayout(new qx.ui.layout.VBox());
+   	wind2.setCenterOnAppear(true);
+     	wind2.setShowMaximize(false);
+	wind2.setShowMinimize(false);
+	wind2.setShowClose(false);
+	wind2.add(chooserDate_2);
 	
-     	wind.setLayout(new qx.ui.layout.VBox());
-     	wind.add(chooserDate_2);
-     	wind.setCenterOnAppear(true);
-     	wind.setShowMaximize(false);
-	wind.setShowMinimize(false);
-	wind.setShowClose(false);
-	wind.open();
-	wind.add(btnWindAceptar);
+	
+     
+	wind2.add(btnWindAceptar2);
+	 if(!wind2.isActive()){
+     	wind2.open();
+     }
      
      chooserDate_2.addListener("execute", function(e){
      	let actual = chooserDate_2.getValue();
      	labelResumen_2.setValue(actual);
      
      });
+     
+     
      
      chooserDate_2.addListener("changeValue", function(e){
      
@@ -509,13 +529,14 @@ qx.Class.define("myejemplo.SplitScreen", {
 	
 	
 		//evento del boton aceptar	
-	btnWindAceptar.addListener("execute", function(e){
+	btnWindAceptar2.addListener("execute", function(e){
 		
-		wind.close();
+		wind2.close();
 		});
      });
-     
+    
      });
+     
      
      let btnNow =  new qx.ui.form.Button("Now");
      
@@ -608,7 +629,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      
      	//encabezado de la tabla trandTable_2
      	let lista = ["Show", "Axis Name", "Axis Name?", "Trace Names?", "Grid", "On Right", "Color", "Min", "Max", "Auto-Scale", "Log.Scale"];
-     let trendTable_2 = new myejemplo.TrendTable(lista);
+     let trendTable_2 = new myejemplo.TrendTable(lista, "ValueAxes");
      
      //se añaden los elementos a la pagina value_Axes
     value_Axes.add(situacion, {row: 0, column: 0});
@@ -671,6 +692,26 @@ qx.Class.define("myejemplo.SplitScreen", {
     let btnLegend = new qx.ui.form.Button("#########");
     let checkBLegend = new qx.ui.form.CheckBox();
     
+    
+    checkBSave.addListener("changeValue", function (e) {
+    
+    	if(e.getData()){
+    		//logica de cuando el check este activo
+    	}else{
+    		//logica de cuando el check no este activo
+    	}
+    });
+    
+    
+    checkBLegend.addListener("changeValue", function (e) {
+    
+    	if(e.getData()){
+    		//logica de cuando el check este activo
+    	}else{
+    		//logica de cuando el check no este activo
+    	}
+    });
+    
    //llamada a la funcion para mostrar ventana de ajuste del texto del boton btnTitleF
    this.windowSelectFont(btnTitleF);
    //fin de la funcion
@@ -718,16 +759,21 @@ qx.Class.define("myejemplo.SplitScreen", {
     let btnRefresh = new qx.ui.form.Button("Refresh");
     let listaSta = ["Display Name", "Sample Count", "Mean", "Median", "Standard Deviation", "Min Value", "Max Value", "Sum"];
     
-    let trendTable_3 = new myejemplo.TrendTable(listaSta);
+    let trendTable_3 = new myejemplo.TrendTable(listaSta, "nada");
     
     statistics.add(btnRefresh, {row: 0, column: 0});
-    statistics.add(trendTable_3, {row: 1, column: 0});
+    statistics.add(trendTable_3, {row: 1, column: 1, colSpan: 80});
    
     if(trendTable_3.getTableModel().getData().length === 0){
     let mVacio = new qx.ui.basic.Label("No hay Trazas");
-     statistics.add(mVacio, {row: 1, column: 1});
+     statistics.add(mVacio, {row: 1, column: 81});
      mVacio.setTextColor("red");
     }
+    
+    btnRefresh.addListener("execute", function(){
+				//logica 
+			
+			});
     ////////////////////////////////////////////////////////
     
     // renderizando
@@ -1118,7 +1164,365 @@ qx.Class.define("myejemplo.SplitScreen", {
   				}
   				
   				});
-  			}
+  			},
+  			
+  		////METODO	
+  		openTimeDialog: function(btntime){
+  			let winAjuste = new qx.ui.window.Window("Configuration");
+  				
+  			let cont = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));	
+  				
+		  
+		     //Ajustes de la ventana
+		     winAjuste.setLayout(new qx.ui.layout.VBox());
+		     winAjuste.setWidth(1000);
+		     winAjuste.setHeight(200);
+		     winAjuste.setCenterOnAppear(true);
+		     winAjuste.setShowMaximize(false);
+		     winAjuste.setShowMinimize(false);
+		     winAjuste.setShowClose(false);
+		 
+			cont.setHeight(250);
+  			cont.setWidth(winAjuste.getWidth());
+  			
+		  let btnClose = new qx.ui.form.Button("Close");
+     		  let btnApply = new qx.ui.form.Button("Apply");
+		  
+	     let split = new qx.ui.splitpane.Pane("horizontal");
+	     split.setHeight(cont.getHeight());
+	     split.setWidth(cont.getWidth());
+	     
+	     //se ñade el split a la ventana
+	    cont.add(split, {row: 0 , column: 0, rowSpan: 30, colSpan: 50});
+	    cont.add(btnClose, {row: 31 , column: 80});
+	    cont.add(btnApply, {row: 31 , column: 85});
+	     
+	     //ELEMENTOS DEL SPLIT///// Contenedor del lado izquierdo y del lado derecho de la ventana winajuste
+	     let contenedorIzq = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
+	     let contenedorDer = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
+     
+     
+     		 contenedorDer.setMinWidth(500); 
+		 contenedorDer.setMaxWidth(600);
+		 contenedorIzq.setMinWidth(500); 
+		  contenedorIzq.setMaxWidth(600);
+	  ////ELEMENTOS DEL contenedorIzq////
+     let labelResumen = new qx.ui.basic.Label("0/0/0");
+     	 labelResumen.setBackgroundColor("#cacfd2");
+     	
+     //Time spinners
+     let spinnerHora = new qx.ui.form.Spinner(0, 1, 23);
+     let spinnerMinute = new qx.ui.form.Spinner(0, 1, 59);
+     let spinnerSecond = new qx.ui.form.Spinner(0, 1, 59);
+     let btnResetTime = new qx.ui.form.Button("00:00");
+     
+      //Spinners para year, month, days, hours, minutes, seconds
+      let spinnerYear = new qx.ui.form.Spinner(0, 1, 99);//buscar còmo bloquear las fechas que no son hoy
+      let spinnerMonth = new qx.ui.form.Spinner(0, 1, 11);
+      let spinnerDays = new qx.ui.form.Spinner(0, 1, 30);
+      let spinnerHours = new qx.ui.form.Spinner(0, 1, 23);
+      let spinnerMinutes = new qx.ui.form.Spinner(0, 1, 59);
+      let spinnerSeconds = new qx.ui.form.Spinner(0, 1, 59);
+     
+     //Botones para 12h, 1 day, 3 days. 7days
+      let btnStart12H = new qx.ui.form.Button("12 h");
+      let btnStart1D = new qx.ui.form.Button("1 day");
+      let btnStart3D = new qx.ui.form.Button("3 days");
+      let btnStart7D = new qx.ui.form.Button("7 days");
+      
+      let año=0; 
+      let mes=0;
+      let dia=0;
+       //Boton para escoger la fecha
+     let btnChooser = new qx.ui.form.Button("Get Date");
+     let labelSetDate = new qx.ui.basic.Label("##");
+     labelSetDate.setBackgroundColor("#cacfd2");
+ 
+     //objeto que permite escoger la fecha
+     let chooserDate = new qx.ui.control.DateChooser();
+     
+     	 
+	  //evento del boton para escoger la fecha
+	let wind = new qx.ui.window.Window("Get Date");
+	let btnWindAceptar = new qx.ui.form.Button("Aceptar");
+	
+     	btnChooser.addListener("execute", function(e){
+     	//ventana que sirve para mostrar el seleccionador de fechas y su boton aceptar
+     	
+     	wind.setLayout(new qx.ui.layout.VBox());
+     	wind.add(chooserDate);
+     	wind.setCenterOnAppear(true);
+     	wind.setShowMaximize(false);
+	wind.setShowMinimize(false);
+	wind.setShowClose(false);
+	
+	wind.add(btnWindAceptar);
+	  
+     if(!wind.isActive()){
+     	wind.open();
+     }
+	//evento que permite cambiar el valor a obtener del seleccionador de fechas
+	
+	chooserDate.addListener("changeValue", function(e){
+		
+		var date = e.getData();
+		año = date.getFullYear();
+		mes = date.getMonth() +1;
+		dia = date.getDate();
+		labelSetDate.setValue(date.toDateString());
+		labelResumen.setValue(año+"/"+mes+"/"+dia );
+		
+	//evento del boton aceptar	
+	btnWindAceptar.addListener("execute", function(e){
+		
+		wind.close();
+		});
+	});
+	
+
+     
+     	});		
+     	
+     	//evento que permite resetear el tiempo hh/min/sec
+     	btnResetTime.addListener("execute", function(e){
+		spinnerHora.resetValue();
+		spinnerMinute.resetValue();
+		spinnerSecond.resetValue();
+		});
+      
+      
+     /* 
+      var segundosTotales = 0;
+      const AÑO = 31563000;
+      const MES = 2592000;
+      const DIA = 86400;
+      const HORA = 3600;
+      const MIN = 60;*/
+      
+      //eventos de los botones (btnStart12H, btnStart1D, btnStart3D, btnStart7D)//////////
+      btnStart12H.addListener("execute", function(e){
+	//se ajusta el spinner hours y se resetean los demas spinners
+		spinnerHours.setValue(12);
+		spinnerYear.resetValue();
+		spinnerMonth.resetValue();
+		spinnerDays.resetValue();
+		spinnerMinutes.resetValue();
+		spinnerSeconds.resetValue();
+		
+		labelResumen.setValue(año+"/"+mes+"/"+dia);
+		});
+	
+	
+	 btnStart1D.addListener("execute", function(e){
+	//se ajusta el spinner days a 1 y se resetean los demas spinners
+		spinnerDays.setValue(1);
+		spinnerYear.resetValue();
+		spinnerMonth.resetValue();
+		spinnerHours.resetValue();
+		spinnerMinutes.resetValue();
+		spinnerSeconds.resetValue();
+	
+		//se asigna a el label labelResumen
+		labelResumen.setValue(año+"/"+mes+"/"+dia +" "+spinnerDays.getValue().toString()+" day");
+		});
+	
+      
+       btnStart3D.addListener("execute", function(e){
+	//se ajusta el spinner days a 3 y se resetean los demas spinners
+		spinnerDays.setValue(3);
+		spinnerYear.resetValue();
+		spinnerMonth.resetValue();
+		spinnerHours.resetValue();
+		spinnerMinutes.resetValue();
+		spinnerSeconds.resetValue();
+	
+		//se asigna a el label labelResumen
+		labelResumen.setValue(año+"/"+mes+"/"+dia +" "+spinnerDays.getValue().toString()+" days");
+		});
+	
+      
+       btnStart7D.addListener("execute", function(e){
+	//se ajusta el spinner days a 7  y se resetean los demas spinners
+		spinnerDays.setValue(7);
+		spinnerYear.resetValue();
+		spinnerMonth.resetValue();
+		spinnerHours.resetValue();
+		spinnerMinutes.resetValue();
+		spinnerSeconds.resetValue();
+	
+		//se asigna a el label labelResumen
+		labelResumen.setValue(año+"/"+mes+"/"+dia +" "+spinnerDays.getValue().toString()+" days");
+		});
+	
+	
+      /////////////////////////////////////fin de los eventos/////////////
+      
+    
+			//se añaden los elementos al contenedorIzq
+     contenedorIzq.add(new qx.ui.basic.Label("Start"), {row: 0, column: 0});
+     contenedorIzq.add(new qx.ui.basic.Label("Date"), {row: 1, column: 0});
+     contenedorIzq.add(labelSetDate, {row: 1, column: 1});
+     contenedorIzq.add(btnChooser, {row: 1, column: 2});
+     contenedorIzq.add(new qx.ui.basic.Label("Time"), {row: 2, column: 0});
+     contenedorIzq.add(spinnerHora, {row: 2, column: 1});
+     contenedorIzq.add(spinnerMinute, {row: 2, column: 2});
+     contenedorIzq.add(spinnerSecond, {row: 2, column: 3});
+     contenedorIzq.add(btnResetTime, {row: 2, column: 4});
+     contenedorIzq.add(new qx.ui.basic.Label("Year"), {row: 3, column: 0});
+     contenedorIzq.add(spinnerYear, {row: 3, column: 1});
+     contenedorIzq.add(new qx.ui.basic.Label("Hours"), {row: 3, column: 2});
+     contenedorIzq.add(spinnerHours, {row: 3, column: 3});
+     contenedorIzq.add(new qx.ui.basic.Label("Month"), {row: 4, column: 0});
+     contenedorIzq.add(spinnerMonth, {row: 4, column: 1});
+     contenedorIzq.add( new qx.ui.basic.Label("Minutes"), {row: 4, column: 2});
+     contenedorIzq.add(spinnerMinutes, {row: 4, column: 3});
+     contenedorIzq.add(new qx.ui.basic.Label("Days"), {row: 5, column: 0}); 
+     contenedorIzq.add(spinnerDays, {row: 5, column: 1}); 
+     contenedorIzq.add(new qx.ui.basic.Label("Seconds"), {row: 5, column: 2}); 
+     contenedorIzq.add(spinnerSeconds, {row: 5, column: 3});      
+     contenedorIzq.add(btnStart12H, {row: 6, column: 0});  
+     contenedorIzq.add(btnStart1D, {row: 6, column: 1});  
+     contenedorIzq.add(btnStart3D, {row: 6, column: 2});  
+     contenedorIzq.add(btnStart7D, {row: 6, column: 3});  
+     contenedorIzq.add(labelResumen, {row: 7, column: 0});  
+     ///////////////////////////////////
+     
+     
+       ///////////////ELEMENTOS DEL CONTENEDOR contenedorDer
+     let labelResumen_2 = new qx.ui.basic.Label("0/0/0");
+     	 labelResumen_2.setBackgroundColor("#cacfd2");
+     let labelSetDate_2 = new qx.ui.basic.Label("##");
+     		labelSetDate_2.setBackgroundColor("#cacfd2");
+     		
+     		
+      //Time spinners
+     let spinnerHoraEnd = new qx.ui.form.Spinner(0, 1, 23);
+     let spinnerMinuteEnd = new qx.ui.form.Spinner(0, 1, 59);
+     let spinnerSecondEnd = new qx.ui.form.Spinner(0, 1, 59);
+     let btnResetTimeEnd = new qx.ui.form.Button("00:00");
+     
+     //evento que permite resetear el tiempo hh/min/sec
+     	btnResetTimeEnd.addListener("execute", function(e){
+		spinnerHoraEnd.resetValue();
+		spinnerMinuteEnd.resetValue();
+		spinnerSecondEnd.resetValue();
+		});
+     
+     
+      let chooserDate_2 =new qx.ui.control.DateChooser();
+     let btnChooser_2 = new qx.ui.form.Button("Get Date");
+     
+      let añoEnd=0; 
+      let mesEnd=0;
+      let diaEnd=0;
+      
+       let wind3 = new qx.ui.window.Window("Get Date");
+       let btnWindAceptar3 = new qx.ui.form.Button("Aceptar");
+     btnChooser_2.addListener("execute", function(e){
+     
+     
+	
+     	wind3.setLayout(new qx.ui.layout.VBox());
+     	wind3.add(chooserDate_2);
+     	wind3.setCenterOnAppear(true);
+     	wind3.setShowMaximize(false);
+	wind3.setShowMinimize(false);
+	wind3.setShowClose(false);
+	
+	wind3.add(btnWindAceptar3);
+     
+     if(!wind3.isActive()){
+     	wind3.open();
+     }
+     chooserDate_2.addListener("execute", function(e){
+     	let actual = chooserDate_2.getValue();
+     	labelResumen_2.setValue(actual);
+     
+     });
+     
+     chooserDate_2.addListener("changeValue", function(e){
+     
+     		var date = e.getData();
+		añoEnd = date.getFullYear();
+		mesEnd = date.getMonth() +1;
+		diaEnd = date.getDate();
+		
+		labelSetDate_2.setValue(date.toDateString());
+		labelResumen_2.setValue(añoEnd+"/"+mesEnd+"/"+diaEnd );
+	
+	
+		//evento del boton aceptar	
+	btnWindAceptar3.addListener("execute", function(e){
+		
+		wind3.close();
+		});
+     });
+     
+     });
+     
+     let btnNow =  new qx.ui.form.Button("Now");
+     
+     btnNow.addListener("execute", function(e){
+		chooserDate_2.setValue(new Date());
+		
+		añoEnd = chooserDate_2.getValue().getFullYear();
+		mesEnd = chooserDate_2.getValue().getMonth() +1;
+		diaEnd = chooserDate_2.getValue().getDate();
+		labelResumen_2.setValue(añoEnd+"/"+mesEnd+"/"+diaEnd);
+		
+		labelSetDate_2.setValue(labelResumen_2.getValue());
+		});
+     	
+     	//se añaden los elementos al contenedorDer
+      contenedorDer.add(new qx.ui.basic.Label("End"), {row: 0, column: 0}); 
+      contenedorDer.add(new qx.ui.basic.Label("Date"), {row: 1, column: 0}); 
+      contenedorDer.add(labelSetDate_2, {row: 1, column: 1}); 
+      contenedorDer.add(btnChooser_2, {row: 1, column: 2});  
+      contenedorDer.add(new qx.ui.basic.Label("Time"), {row: 2, column: 0});  
+      contenedorDer.add(spinnerHoraEnd, {row: 2, column: 1});  
+      contenedorDer.add(spinnerMinuteEnd, {row: 2, column: 2});  
+      contenedorDer.add(spinnerSecondEnd, {row: 2, column: 3});  
+      contenedorDer.add(btnResetTimeEnd, {row: 2, column: 4});  
+      contenedorDer.add(btnNow, {row: 3, column: 0});  
+      contenedorDer.add(labelResumen_2, {row: 4, column: 0}); 
+     	 
+	     	
+	winAjuste.getChildrenContainer().add(cont);    
+		
+     //se añaden los contenedores: contenedorIzq y contenedorDer
+    split.add(contenedorIzq, 1);
+     split.add(contenedorDer, 1);
+     ///////////////////////////
+     
+     //eventos de esos botones: para cerrar o aplicar los cambios
+   btnClose.addListener("execute", function(e){
+   	winAjuste.close();
+   	});
+    
+    btnApply.addListener("execute", function(e){
+   	//modificar los datos de tiempo de la grafica
+   	
+   	
+   	});
+   	
+   	
+   	
+   	
+   		btntime.addListener("execute", function(e){
+  				
+  					if(!winAjuste.isActive()){
+  					winAjuste.open();
+  				}
+  				
+  				
+  				});
+  			
+  			
+    }
+    	
+		
+	      
+  			
   			
 		
 	}
