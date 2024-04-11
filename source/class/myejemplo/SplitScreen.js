@@ -134,6 +134,8 @@ qx.Class.define("myejemplo.SplitScreen", {
 
 	
       }, this); 
+
+	  //VALORES QUE SIRVIERON PARA PROBAR LOS METODOS UNDO Y REDO
 	  //[150, 230, 600, 224, 218, 1000, 147, 260]
 	 controladorGrafica.agregarEstado(unicValues);
 	 controladorGrafica.agregarEstado([12, 200, 450, 760]);
@@ -143,7 +145,7 @@ qx.Class.define("myejemplo.SplitScreen", {
       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
       graph1.add(scroller, {row: 1, column: 0, colSpan: 150});
 	  this.undoFunction(btnMenuBar10, btnMenuBar11, controladorGrafica, scroller, Myecharts);
-	 // this.redoFunction(btnMenuBar11, btnMenuBar10, controladorGrafica, scroller, Myecharts);
+	  this.redoFunction(btnMenuBar11, btnMenuBar10, controladorGrafica, scroller, Myecharts);
       this.mouseEventTable(scroller);
 	 
    //------------------------------------------------------------------------------------//
@@ -1572,7 +1574,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 				btnRedo.setEnabled(true);
 			}
 
-		this.redoFunction(btnRedo, btnUndo, control, scroll, charts1);
+	
 
 	});
 
@@ -1637,6 +1639,7 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 			btnUndo.setEnabled(true);
 		
 		}	
+		
 });
 
 	}
