@@ -12,7 +12,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     this.base(arguments, "vertical"); // "vertical" para un divisor horizontal
 
 	 let Myecharts = require("echarts");
-	 
+	 let controladorGrafica = new myejemplo.ManejadorGrafica(); 
     // SplitScreen TOP component
     let topComponent = new qx.ui.tabview.TabView();
     // test
@@ -56,8 +56,10 @@ qx.Class.define("myejemplo.SplitScreen", {
      	let btnMenuBar11 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/redo.png");
      	let btnMenuBar12 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/scroll_on.png");
      	let btnMenuBar13 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/time_range.png");
-     	
+     	let btnMenuBar14 = new qx.ui.menubar.Button("Save changes");
   
+		
+
      	btnMenuBar3.setEnabled(false);
      	btnMenuBar4.setEnabled(false);
      	btnMenuBar11.setEnabled(false);
@@ -68,22 +70,18 @@ qx.Class.define("myejemplo.SplitScreen", {
       this.windowConfig1(btnMenuBar1, scroller);
       this.addAnotation(btnMenuBar2);
       this.openTimeDialog(btnMenuBar13);
-     	btnMenuBar3.addListener("execute", function(e){});
-     	btnMenuBar4.addListener("execute", function(e){});
-     	btnMenuBar5.addListener("execute", function(e){});
-     	btnMenuBar6.addListener("execute", function(e){});
-     	btnMenuBar7.addListener("execute", function(e){});
-     	btnMenuBar8.addListener("execute", function(e){});
-     	btnMenuBar9.addListener("execute", function(e){});
-     	btnMenuBar10.addListener("execute", function(e){});
-     	btnMenuBar11.addListener("execute", function(e){});
-     	btnMenuBar12.addListener("execute", function(e){});
-     	btnMenuBar13.addListener("execute", function(e){});
+
+	  //metodos controlan el iratras e irdelante de los valores de la grafica
+	 
+	 // this.redoFunction(btnMenuBar11);
+
+		
      	
+
      	
      	//menuBar1 añade a btnMenuBar
      	menuBar1.add(btnMenuBar1);
-	menuBar1.add(btnMenuBar2);
+	    menuBar1.add(btnMenuBar2);
      	menuBar1.add(btnMenuBar3);
      	menuBar1.add(btnMenuBar4);
      	menuBar1.add(btnMenuBar5);
@@ -95,7 +93,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      	menuBar1.add(btnMenuBar11);
      	menuBar1.add(btnMenuBar12);
      	menuBar1.add(btnMenuBar13);
-     
+		menuBar1.add(btnMenuBar14);
    //------------------------------------------------------------------------------------//
    	 //CREACION DEL GRAFICO DENTRO //------//
    	 
@@ -104,46 +102,50 @@ qx.Class.define("myejemplo.SplitScreen", {
         canvasHeight: 200,
         syncDimension: false,
       });
-      
+
+   let option;
+    let myChart = 0;
+	let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+	let unicValues = [150, 230, 600, 224, 218, 1000, 147, 260];
    canvas1.addListener("redraw", function(e)
       {
        let chartDom = scroller.getContentElement().getDomElement();
-      let myChart = Myecharts.init(chartDom, 'dark');
-      let option;
+	   myChart = Myecharts.init(chartDom, 'dark');
+      
 
-	
-        const data2 = [];
-        for (let i = 0; i <= 360; i++) {
-          let t = (i / 180) * Math.PI;
-          let r = Math.sin(2 * t) * Math.cos(2 * t);
-          data2.push([r, i]);
-        }
-
-        
 
 	option = {
 	  xAxis: {
 	    type: 'category',
-	    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	    data: fechas
 	  },
 	  yAxis: {
 	    type: 'value'
 	  },
 	  series: [
 	    {
-	      data: [150, 230, 600, 224, 218, 1000, 147, 260],
+	      data: controladorGrafica.primerElementoDefault(),
 	      type: 'line'
 	    }
 	  ]
 	};
      	myChart.setOption(option);
+	
 
+	
       }, this); 
-      
-       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
+	  //[150, 230, 600, 224, 218, 1000, 147, 260]
+	 controladorGrafica.agregarEstado(unicValues);
+	 controladorGrafica.agregarEstado([12, 200, 450, 760]);
+	 controladorGrafica.agregarEstado([25, 0, 1570, -3]);
+	  
+	 
+      graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
       graph1.add(scroller, {row: 1, column: 0, colSpan: 150});
-      
+	  this.undoFunction(btnMenuBar10, btnMenuBar11, controladorGrafica, scroller, Myecharts);
+	 // this.redoFunction(btnMenuBar11, btnMenuBar10, controladorGrafica, scroller, Myecharts);
       this.mouseEventTable(scroller);
+	 
    //------------------------------------------------------------------------------------//
     
     let graph2 = new qx.ui.tabview.Page("Trend 2");
@@ -1518,12 +1520,132 @@ qx.Class.define("myejemplo.SplitScreen", {
   				});
   			
   			
-    }
-    	
+    },
+	
+	undoFunction: function(btnUndo, btnRedo, control, scroll, charts1) {
 		
+		
+		btnUndo.addListener("execute", function(e){
+			if(control.obtenerContador() !== 0 && control.obtenerElementoActual() !== true){
+				btnRedo.setEnabled(true);
+
+			let canvas1 = new qx.ui.embed.Canvas().set({
+				canvasWidth: 200,
+				canvasHeight: 200,
+				syncDimension: false,
+			  });
+		
+		   let option;
+			let myChart = 0;
+		   canvas1.addListener("redraw", function(e)
+			  {
+			   let chartDom = scroll.getContentElement().getDomElement();
+			   myChart = charts1.init(chartDom, 'dark');
+			  
+			
+			option = {
+			  xAxis: {
+				type: 'category',
+				data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+			  },
+			  yAxis: {
+				type: 'value'
+			  },
+			  series: [
+				{
+				  data: control.obtenerEstadoPrevio(),
+				  type: 'line'
+				}
+			  ]
+			};
+		
+	
+				 myChart.setOption(option);
+		
+		
+		
+			  }, this); 
+			 
+			}else{
+				
+				btnUndo.setEnabled(false);
+				btnRedo.setEnabled(true);
+			}
+
+		this.redoFunction(btnRedo, btnUndo, control, scroll, charts1);
+
+	});
+
+
+		},
+	
 	      
-  			
-  			
+  		
+	
+	saveState: function(btnSave, control, scroll, charts1){
+		btnSave.addListener("execute", function(){
+		
+			
+	});
+},
+
+redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
+		
+	btnRedo.addListener("execute", function(e){
+		if(control.obtenerLimiteAgregado() === true){
+			btnUndo.setEnabled(true);
+
+		let canvas1 = new qx.ui.embed.Canvas().set({
+			canvasWidth: 200,
+			canvasHeight: 200,
+			syncDimension: false,
+		  });
+	
+	   let option;
+		let myChart = 0;
+	   canvas1.addListener("redraw", function(e)
+		  {
+		   let chartDom = scroll.getContentElement().getDomElement();
+		   myChart = charts1.init(chartDom, 'dark');
+	
+		
+		option = {
+		  xAxis: {
+			type: 'category',
+			data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+		  },
+		  yAxis: {
+			type: 'value'
+		  },
+		  series: [
+			{
+			  data: control.obtenerEstadoSiguiente(),
+			  type: 'line'
+			}
+		  ]
+		};
+	
+
+			 myChart.setOption(option);
+	
+	
+	
+		  }, this); 
+		 
+		}else{
+			btnRedo.setEnabled(false);
+			btnUndo.setEnabled(true);
+		
+		}	
+});
+
+	}
+
 		
 	}
 });
+
+
+
+
+			
