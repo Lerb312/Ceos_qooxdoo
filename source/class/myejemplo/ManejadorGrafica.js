@@ -1,5 +1,5 @@
 
-
+//PROPUESTA CREAR UNA LISTA DOBLEMENTE ENLAZADA*******Aun no se ha aplicado
 qx.Class.define("myejemplo.ManejadorGrafica", {
     extend: qx.core.Object,
 
@@ -21,7 +21,10 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
 
 
       agregarEstado: function(estado){
-        this.__contador++;
+        if(this.__contador <= this.__contadorNotMoved){
+          this.__contador++;
+        }
+
         this.__contadorNotMoved++;
         this.__lista.push(estado);
         
@@ -35,7 +38,7 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
       obtenerEstadoPrevio: function(){
 
         if(this.__contador > 0){
-          return this.__lista[--this.__contador];
+          return this.__lista[--this.__contadorNotMoved];
 
         }else{
           return true;
@@ -55,8 +58,14 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
         
         return this.__contador; 
       },
+
+      //REVISAR ESTO
       obtenerElementoActual: function(){
-        return this.__lista[this.__contador];
+        if(this.__contadorNotMoved > 0){
+          return this.__lista[this.__contadorNotMoved];
+        }
+   
+        
       },
 
       obtenerLimiteAgregado: function(){
