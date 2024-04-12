@@ -12,6 +12,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     this.base(arguments, "vertical"); // "vertical" para un divisor horizontal
 
 	 let Myecharts = require("echarts");
+	 //Objeto que guarda los estados de la grafica (valores numericos)
 	 let controladorGrafica = new myejemplo.ManejadorGrafica(); 
     // SplitScreen TOP component
     let topComponent = new qx.ui.tabview.TabView();
@@ -71,13 +72,6 @@ qx.Class.define("myejemplo.SplitScreen", {
       this.addAnotation(btnMenuBar2);
       this.openTimeDialog(btnMenuBar13);
 
-	  //metodos controlan el iratras e irdelante de los valores de la grafica
-	 
-	 // this.redoFunction(btnMenuBar11);
-
-		
-     	
-
      	
      	//menuBar1 añade a btnMenuBar
      	menuBar1.add(btnMenuBar1);
@@ -124,7 +118,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 	  },
 	  series: [
 	    {
-	      data: controladorGrafica.primerElementoDefault(),
+	      data: controladorGrafica.obtenerElementoActual(),
 	      type: 'line'
 	    }
 	  ]
@@ -146,6 +140,7 @@ qx.Class.define("myejemplo.SplitScreen", {
       graph1.add(scroller, {row: 1, column: 0, colSpan: 150});
 	  this.undoFunction(btnMenuBar10, btnMenuBar11, controladorGrafica, scroller, Myecharts);
 	  this.redoFunction(btnMenuBar11, btnMenuBar10, controladorGrafica, scroller, Myecharts);
+	 // this.saveState(btnMenuBar14, controladorGrafica, estado);
       this.mouseEventTable(scroller);
 	 
    //------------------------------------------------------------------------------------//
@@ -203,7 +198,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color", "Cursor Value", "Scan Period", "Buffer Size", "Axis", "Trace Type", "Width", "Style", "Point", "Size", "Request", "Index"];
     		
     		//añadiendo su tabla respectiva
-    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace");
+    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace", scroller, Myecharts, controladorGrafica);
              
     //valida si la tabla no posee elementos. En caso que si este vacia, se muestra a un lado de la tabla en letras rojas el mensaje "No hay trazas"       
      if(trendTable.getTableModel().getData().length === 0){
@@ -633,7 +628,7 @@ qx.Class.define("myejemplo.SplitScreen", {
      
      	//encabezado de la tabla trandTable_2
      	let lista = ["Show", "Axis Name", "Axis Name?", "Trace Names?", "Grid", "On Right", "Color", "Min", "Max", "Auto-Scale", "Log.Scale"];
-     let trendTable_2 = new myejemplo.TrendTable(lista, "ValueAxes");
+     let trendTable_2 = new myejemplo.TrendTable(lista, "ValueAxes", scroller, Myecharts, controladorGrafica);
      
      //se añaden los elementos a la pagina value_Axes
     value_Axes.add(situacion, {row: 0, column: 0});
@@ -763,7 +758,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     let btnRefresh = new qx.ui.form.Button("Refresh");
     let listaSta = ["Display Name", "Sample Count", "Mean", "Median", "Standard Deviation", "Min Value", "Max Value", "Sum"];
     
-    let trendTable_3 = new myejemplo.TrendTable(listaSta, "nada");
+    let trendTable_3 = new myejemplo.TrendTable(listaSta, "nada", scroller, Myecharts);
     
     statistics.add(btnRefresh, {row: 0, column: 0});
     statistics.add(trendTable_3, {row: 1, column: 1, colSpan: 80});
@@ -1584,9 +1579,9 @@ qx.Class.define("myejemplo.SplitScreen", {
 	      
   		
 	
-	saveState: function(btnSave, control, scroll, charts1){
+	saveState: function(btnSave, control, nuevoEstado){
 		btnSave.addListener("execute", function(){
-		
+		//control.agregarEstado(nuevoEstado);   
 			
 	});
 },
