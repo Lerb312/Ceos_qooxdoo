@@ -33,23 +33,30 @@ qx.Class.define("myejemplo.TrendTable", {
     
     this.setTableModel(tableModel);
    
-
+	this
+	.getSelectionModel()
+	.setSelectionMode(
+	  qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
+	);
+	
     if(id == "Trace"){
     	this.mouseEventTable2(scroll, charts, tableModel, control, this);
+		
     }else if(id == "ValueAxes"){
 		tableModel.setColumnEditable(0,false);
 		tableModel.setColumnEditable(1,true);
-		tableModel.setColumnEditable(2,true);
-		tableModel.setColumnEditable(3,true);
-		tableModel.setColumnEditable(4,true);
-		tableModel.setColumnEditable(5,true);
-		tableModel.setColumnEditable(6,true);
+		tableModel.setColumnEditable(2,false);
+		tableModel.setColumnEditable(3,false);
+		tableModel.setColumnEditable(4,false);
+		tableModel.setColumnEditable(5,false);
+		tableModel.setColumnEditable(6,false);
 		tableModel.setColumnEditable(7,true);
 		tableModel.setColumnEditable(8,true);
-		tableModel.setColumnEditable(9,true);
-		tableModel.setColumnEditable(10,true);
+		tableModel.setColumnEditable(9,false);
+		tableModel.setColumnEditable(10,false);
 		let colModelTabla = this.getTableColumnModel();
     	 this.mouseEventTable(scroll, charts, tableModel, control, colModelTabla, this);
+		
     }
    
   },
@@ -57,51 +64,74 @@ qx.Class.define("myejemplo.TrendTable", {
   members:{
   
   	mouseEventTable:function(scroll, charts, tableModel, control, columnModel, tabla){
+	
 		
-  		this.addListener("contextmenu", function(e){
+		
+  		tabla.addListener("contextmenu", function(e){
  
-        let menu = new qx.ui.menu.Menu();
+		let menu = new qx.ui.menu.Menu();
   		menu.setOpener(this);
   		
   		let btn1 = new qx.ui.menu.Button("Add Axis");
-		  
+		let btn2 = new qx.ui.menu.Button("Delete Axis");
+		let btn3 = new qx.ui.menu.Button("Remove Empty Axes");
 
-			btn1.addListener("execute", function(){
+		if(tableModel.getRowCount() === 0){
+            btn2.setEnabled(false);
+            btn3.setEnabled(false);
+		}else if (tableModel.getColumnCount() > 0){
+			btn2.setEnabled(true);
+            btn3.setEnabled(true);
+		}
+
+		btn1.addListener("execute", function(){
+		columnModel.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(1, new qx.ui.table.cellrenderer.String());
+		columnModel.setDataCellRenderer(2, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(5, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(6, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(7, new qx.ui.table.cellrenderer.Number());
+		columnModel.setDataCellRenderer(8, new qx.ui.table.cellrenderer.Number());
+		columnModel.setDataCellRenderer(9, new qx.ui.table.cellrenderer.Boolean());
+		columnModel.setDataCellRenderer(10, new qx.ui.table.cellrenderer.Boolean());
 				
 				
-				columnModel.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(2, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(5, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(6, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(9, new qx.ui.table.cellrenderer.Boolean());
-				columnModel.setDataCellRenderer(10, new qx.ui.table.cellrenderer.Boolean());
-				tableModel.addRows([[true, "Value 1", true, true, true, true, true, "siete", "ocho", true, true]]);//de esta forma se añaden registros
+				tableModel.addRows([[true, "Value 1", false, true, true, false, false, 0.0, 10.0, false, false]]);//de esta forma se añaden registros
 									//0,    1,        2,     3,    4,   5,     6,      7,     8,      9,    10
-				//evento sobre las celdas de la tabla
 
+									
+				//evento sobre las celdas de la tabla
+			
 				tabla.addListener("cellTap", function(e){
 			 
 				 let col = e.getColumn();
 				 let row = e.getRow();
-			 
-				
+				 
 			 
 				 //activa o desactiva el checkbox dentro de la tabla. Aplicar a todas las columnas que deben tener checkbox
-				 
-				 if(col === 0){
-					 let valorActual = tableModel.getValue(row, col);//valor contenido actulmente
-					 tableModel.setValue(row, col, !valorActual);
-			 
-					 if(valorActual){//---->Check esta false
+				 let canvas1 = new qx.ui.embed.Canvas().set({
+					canvasWidth: 200,
+					canvasHeight: 200,
+					syncDimension: false,
+				  });
+
+ 				let nuevo = tableModel.getValue(1, row);
+				let nuevo_1;
+				if(col === 0){
+					let valorActual = tableModel.getValue(col, row);//valor contenido actulmente
+
+					 tableModel.setValue(col, row, !valorActual);
+					 
+						 if(tableModel.getValue(col, row) === false){//---->Check esta false
 						
 						 //inicio del grafico
-						 let canvas1 = new qx.ui.embed.Canvas().set({
+						/* let canvas1 = new qx.ui.embed.Canvas().set({
 							 canvasWidth: 200,
 							 canvasHeight: 200,
 							 syncDimension: false,
-						   });
+						   });*/  
 					 
 						let option;
 						 let myChart = 0;
@@ -118,9 +148,10 @@ qx.Class.define("myejemplo.TrendTable", {
 							 type: 'category',
 							 data: fechas
 						   },
-						   yAxis: {
-							 type: 'value'
-						   },
+						   yAxis: [{
+							 type: 'value',
+							 show: false
+						   }],
 						   series: [
 							 {
 							   data: [],
@@ -135,15 +166,11 @@ qx.Class.define("myejemplo.TrendTable", {
 						   }, this); 
 						  
 						 control.agregarEstado([]);
+						
 						   ////////fin del grafico
-					 }else{//---->true
-						 //inicio del grafico
-						 let canvas1 = new qx.ui.embed.Canvas().set({
-							 canvasWidth: 200,
-							 canvasHeight: 200,
-							 syncDimension: false,
-						   });
-					 
+						 }else{//---->true
+						
+				
 						let option;
 						 let myChart = 0;
 						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
@@ -155,13 +182,15 @@ qx.Class.define("myejemplo.TrendTable", {
 					 
 					 
 						 option = {
+							
 						   xAxis: {
 							 type: 'category',
 							 data: fechas
 						   },
-						   yAxis: {
-							 type: 'value'
-						   },
+						   yAxis: [{
+							 type: 'value',
+							 show: true
+						   }],
 						   series: [
 							 {
 							   data: control.obtenerEstadoPrevio(),
@@ -174,25 +203,254 @@ qx.Class.define("myejemplo.TrendTable", {
 					 
 						 
 						   }, this); 
-						 
+						  
 					 }
 			 
-					 this.updateRowData(row);
+					
 					 //aprovechar el estado del checkbox para modificar la grafica
 					 
 					 
+				}else if(col === 2){
+						let valorCol = tableModel.getValue(col, row);
+						tableModel.setValue(col, row, !valorCol);
+						nuevo_1 = tableModel.getValue(1, row);
+					
+					
+						if(tableModel.getValue(col, row)){
+				
+						   let option;
+							let myChart = 0;
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						   canvas1.addListener("redraw", function(e)
+							  { 
+								
+								let chartDom= scroll.getContentElement().getDomElement();
+							   myChart = charts.init(chartDom, 'dark');
+							  
+						
+						
+							option = {
+								
+							  xAxis: {
+								type: 'category',
+								data: fechas
+							  },
+							  yAxis: [{
+								type: 'value',
+								name: nuevo,
+								nameLocation: "end",
+								nameTextStyle: {
+									fontWeight: "bold",
+									fontSize: 16
+								  }
+							  }],
+							  series: [
+								{
+								  data: control.obtenerElementoActual(),
+								  type: 'line'
+								}
+							  ]
+							};
+								 myChart.setOption(option);
+							
+						
+							
+							  }, this); 
+	
+						}else{
+							
+						   let option;
+							let myChart = 0;
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						   canvas1.addListener("redraw", function(e)
+							  {
+							   let chartDom = scroll.getContentElement().getDomElement();
+							   myChart = charts.init(chartDom, 'dark');
+							  
+						
+						
+							option = {
+								
+							  xAxis: {
+								type: 'category',
+								data: fechas
+							  },
+							  yAxis: [{
+								type: 'value',
+								name: "",
+								nameLocation: "end",
+								
+							  }],
+							  series: [
+								{
+								  data: control.obtenerElementoActual(),
+								  type: 'line'
+								}
+							  ]
+							};
+								 myChart.setOption(option);
+					 
+	
+						}, this);
+					
+					 
 				 }
-				});
+				  
+				}else if(col === 5){
+					let valorCol = tableModel.getValue(col, row);
+						tableModel.setValue(col, row, !valorCol);
+
+						if(tableModel.getValue(col, row)){
+							
+						
+						   let option;
+							let myChart = 0;
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						   canvas1.addListener("redraw", function(e)
+							  {
+							   let chartDom = scroll.getContentElement().getDomElement();
+							   myChart = charts.init(chartDom, 'dark');
+							  
+						
+						
+							option = {
+								
+							  xAxis: {
+								type: 'category',
+								data: fechas
+							  },
+							  yAxis: [{
+								type: 'value',
+								position: "right"
+							  }],
+							  series: [
+								{
+								  data: control.obtenerElementoActual(),
+								  type: 'line'
+								}
+							  ]
+							};
+								 myChart.setOption(option);
+					 
+	
+						}, this);
+						}else{
+						
+						
+						   let option;
+							let myChart = 0;
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						   canvas1.addListener("redraw", function(e)
+							  {
+							   let chartDom = scroll.getContentElement().getDomElement();
+							   myChart = charts.init(chartDom, 'dark');
+							  
+						
+						
+							option = {
+								
+							  xAxis: {
+								type: 'category',
+								data: fechas
+							  },
+							  yAxis: [{
+								type: 'value',
+								position: "left"
+							  }],
+							  series: [
+								{
+								  data: control.obtenerElementoActual(),
+								  type: 'line'
+								}
+							  ]
+							};
+								 myChart.setOption(option);
+					 
+	
+						}, this);
+						}
+				}else if(col ===6){
+					//debo añadir esto al echarts en el yAxis 
+					/*axisLabel: {
+      				color: "rgba(234, 0, 255, 1)"
+   					 }*/
+  
+				}
+
+				if(col === 1){//tableModel.getValue(1, row)=== nuevo 
+					
+					nuevo_1= tableModel.getValue(1, row)
+					
+					
+					
+					let option;
+					let myChart = 0;
+					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+				   canvas1.addListener("redraw", function(e)
+					  { 
+
+						
+						let chartDom= scroll.getContentElement().getDomElement();
+					   myChart = charts.init(chartDom, 'dark');
+					  
+				
+				
+					option = {
+						
+					  xAxis: {
+						type: 'category',
+						data: fechas
+					  },
+					  yAxis: [{
+						type: 'value',
+						name: nuevo_1,
+						nameLocation: "end",
+						nameTextStyle: {
+							fontWeight: "bold",
+							fontSize: 16
+						  }
+					  }],
+					  series: [
+						{
+						  data: control.obtenerElementoActual(),
+						  type: 'line'
+						}
+					  ]
+					};
+						 myChart.setOption(option);
+					
+				
+					
+					  }, this); 
+					}
+					
+		
 			
+			});//cellTap
+		
+			});//execute boton
+			//tableModel.removeRows(fila, 1, true);
+			//FALTA HACER LA FUNCIONALIDAD DEL BOTON2, QUE ELIMINA REGISTROS DE FORMA INDIVIDUAL
+
+			//Remueve todas las filas de la tablas
+			btn3.addListener("execute", function(){
+				tableModel.removeRows(0, tableModel.getRowCount(), true);
 			});
+
 		menu.add(btn1);
+	    menu.add(btn2);
+		menu.add(btn3);
+
 		
 		menu.openAtPointer(e); 
+		
+
+	
   		});
-  	
-  	
+		
   	},
-  	
+
+
   	mouseEventTable2:function(scroll, charts, modeloTabla, control){
   	
   		this.addListener("contextmenu", function(e){
@@ -206,25 +464,7 @@ qx.Class.define("myejemplo.TrendTable", {
 			
 			btn1.addListener("execute", function(){
 				//logica 
-			/*let chk1 = new qx.ui.form.CheckBox();
-			let chk2 = new qx.ui.form.CheckBox();
-			let chk3 = new qx.ui.form.CheckBox();
-			let chk4 = new qx.ui.form.CheckBox();
-			let chk5 = new qx.ui.form.CheckBox();    
-			let chk6 = new qx.ui.form.CheckBox();
-			let chk7 = new qx.ui.form.CheckBox();
-			let text1 = new qx.ui.form.TextField();
-			     text1.setValue("Value 1");
-			let text2 = new qx.ui.form.TextField();
-				text2.setValue("Value 2");
-
-			chk1.setValue(true);
-			chk3.setValue(true);
-			chk4.setValue(true);
-			chk5.setValue(true);*/
-
- 
-			//["jkjawhd"], [], [], [], [], [], [], [], [], [], [], [], [], [], []
+			
 			
 			
 		});
@@ -242,6 +482,6 @@ qx.Class.define("myejemplo.TrendTable", {
   	
   	
   	}
-}
+	}
 });
  
