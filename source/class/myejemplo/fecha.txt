@@ -71,3 +71,84 @@
 		}
 		*/
 		
+if(col === 2){
+					//logica
+					/*ESTO SE DEBE AÑADIR AL OPTION DEL ECHARTS
+					title: {
+					text: "Value 1", // esto se decambiar segun el primer textfield, es decir su valor
+					left: "left",
+					top: "top",
+					textStyle: {
+					fontSize: 30
+					},
+					*/ 
+					
+					alert(col);
+					let valorCol = tableModel.getValue(row, col);
+					alert(col+" "+valorCol);
+					//tableModel.setValue(row, col, !valorActual);
+					/*
+					if(valorActualWd2){
+						let canvas1 = new qx.ui.embed.Canvas().set({
+							canvasWidth: 200,
+							canvasHeight: 200,
+							syncDimension: false,
+						  });
+					
+					   let option;
+						let myChart = 0;
+						let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+					   canvas1.addListener("redraw", function(e)
+						  {
+						   let chartDom = scroll.getContentElement().getDomElement();
+						   myChart = charts.init(chartDom, 'dark');
+						  
+					
+					
+						option = {
+							title: {
+								text: "Value 1", // esto se decambiar segun el primer textfield, es decir su valor
+								left: "left",
+								top: "top",
+								textStyle: {
+								fontSize: 30
+								}},
+						  xAxis: {
+							type: 'category',
+							data: fechas
+						  },
+						  yAxis: {
+							type: 'value'
+						  },
+						  series: [
+							{
+							  data: control.obtenerEstadoPrevio(),
+							  type: 'line'
+							}
+						  ]
+						};
+							 myChart.setOption(option);
+						
+					
+						
+						  }, this); 
+
+					}
+					*/
+
+				 }if(col === 3){
+						//logica
+						alert(col);
+						let value = tableModel.getValue(row, col);
+						alert(value);
+				 }if(col === 4){
+						//logica
+				 }if(col === 5){
+						//logica
+				 }if(col === 6){
+						//logica
+				 }if(col === 9){
+						//logica
+				 }if(col === 10){
+						//logica
+				 }

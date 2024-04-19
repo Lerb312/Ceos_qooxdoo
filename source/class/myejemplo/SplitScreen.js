@@ -62,16 +62,19 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 
      	btnMenuBar3.setEnabled(false);
-     	btnMenuBar4.setEnabled(false);
+     	btnMenuBar6.setEnabled(false);//se esta usando la que trae echarts
+		 btnMenuBar7.setEnabled(false);//se esta usando la que trae echarts
      	btnMenuBar11.setEnabled(false);
         btnMenuBar5.setEnabled(false);
         btnMenuBar8.setEnabled(false);
+		btnMenuBar9.setEnabled(false);
+		btnMenuBar12.setEnabled(false);
      	//eventos de los botones btnMenuBar del 1 al 13
      	
       this.windowConfig1(btnMenuBar1, scroller);
       this.addAnotation(btnMenuBar2);
       this.openTimeDialog(btnMenuBar13);
-
+	  this.openAxis(btnMenuBar4, scroller, Myecharts, controladorGrafica);
      	
      	//menuBar1 añade a btnMenuBar
      	menuBar1.add(btnMenuBar1);
@@ -109,20 +112,77 @@ qx.Class.define("myejemplo.SplitScreen", {
 
 
 	option = {
+		//toolbox solo se coloca una vez al elemento dom
+		toolbox: {
+			show: true,
+			feature: {
+			  dataZoom: {
+				yAxisIndex: "none"
+			  },
+			  magicType: {
+				type: ["line", "bar"]
+			  },
+			  dataView: {
+				readOnly: false
+			  },
+			  restore: {
+				show : true
+			  },
+			  saveAsImage: {
+				name: "Grafico",
+				type: "png"
+			  },
+			  iconStyle: {
+				color: "rgba(156, 156, 160, 1)"
+			  }
+			}
+		  },
 	  xAxis: {
 	    type: 'category',
 	    data: fechas
 	  },
 	  yAxis: {
-	    type: 'value'
+	    type: 'value',
+		
 	  },
+		
+	  grid: {
+		containLabel: false,
+		show: true
+	  },
+	  /*dataZoom: [
+        {
+          type: 'inside',
+          xAxisIndex: [0, 1],
+          start: 0,
+          end: 100
+        },
+        {
+          show: true,
+          xAxisIndex: [0, 1],
+          type: 'slider',
+          top: '85%',
+          start: 0,
+          end: 50
+        }
+      ],*/
 	  series: [
 	    {
+		  color: ["#91cc75"],
 	      data: controladorGrafica.obtenerElementoActual(),
 	      type: 'line'
-	    }
+	    }/*,
+		//Esta es la forma para configurar una nueva linea
+		{
+			// other configurations of series 2
+			color: ["#ea7ccc"],
+			data: [-50, -200, -589, -10,],
+			type: 'line',
+			
+		}*/
 	  ]
 	};
+	
      	myChart.setOption(option);
 	
 
@@ -197,15 +257,21 @@ qx.Class.define("myejemplo.SplitScreen", {
     //Añadiendo lista con los encabezados a la pagina Trace
     const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color", "Cursor Value", "Scan Period", "Buffer Size", "Axis", "Trace Type", "Width", "Style", "Point", "Size", "Request", "Index"];
     		
+	///////borrar
+	let tableModel = new qx.ui.table.model.Simple();
+	tableModel.setColumns(encanbezado_Tabla);
+///////
+
     		//añadiendo su tabla respectiva
     let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace", scroller, Myecharts, controladorGrafica);
-             
+         
+	/*
     //valida si la tabla no posee elementos. En caso que si este vacia, se muestra a un lado de la tabla en letras rojas el mensaje "No hay trazas"       
      if(trendTable.getTableModel().getData().length === 0){
     let msgVacio = new qx.ui.basic.Label("No hay trazas");
      trace.add(msgVacio, {row: 0, column: 1});
      msgVacio.setTextColor("red");
-    }    
+    }    */
     	//se añade la tabla a la pagina trace
      trace.add(trendTable, {row: 0, column: 0});
     /////////////////////////////////////////////
@@ -637,12 +703,12 @@ qx.Class.define("myejemplo.SplitScreen", {
     value_Axes.add(trendTable_2, {row: 1, column: 0});
    
    //verifica si la tabla esta vacia. En caso de que si, se muestra un mensahje en letras rojas al lado de la tabla: "Tabla sin contenido"
-    if(trendTable_2.getTableModel().getData().length === 0){
+   /* if(trendTable_2.getTableModel().getData().length === 0){
     qx.log.Logger.info(this, "entre al if");
     let mensajeVacio = new qx.ui.basic.Label("Tabla sin contenido");
      value_Axes.add(mensajeVacio, {row: 1, column: 1});
      mensajeVacio.setTextColor("red");
-    }
+    }*/
     /////////////////////////////////////////////////
     
     
@@ -1637,6 +1703,121 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 		
 });
 
+	},
+	openAxis:function(btnAxis, scroll, echarts, control){
+	let cont =0;
+	
+		btnAxis.addListener("execute", function(e){
+			
+	
+			if(cont %2 === 0){
+				cont+=1;
+				let canvas1 = new qx.ui.embed.Canvas().set({
+					canvasWidth: 200,
+					canvasHeight: 200,
+					syncDimension: false,
+				  });
+			
+			   let option;
+				let myChart = 0;
+				let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+			   canvas1.addListener("redraw", function(e)
+				  {
+				   let chartDom = scroll.getContentElement().getDomElement();
+				   myChart = echarts.init(chartDom, 'dark');
+				  
+			
+			
+				option = {
+					
+				  xAxis: {
+					type: 'category',
+					data: fechas
+				  },
+				  yAxis: {
+					type: 'value',
+					
+				  },
+					tooltip: {
+					trigger: "axis",
+					axisPointer: {
+				  type: "cross"
+				},
+				show: true
+			  },
+				  grid: {
+					containLabel: false,
+					show: true
+				  },
+				  series: [
+					{
+					  color: ["#91cc75"],
+					  data: control.obtenerElementoActual(),
+					  type: 'line'
+					}
+				  ]
+				};
+				
+					 myChart.setOption(option);
+				
+			
+				
+				  }, this); 
+				 
+				}else{
+					cont+=1;
+					let canvas1 = new qx.ui.embed.Canvas().set({
+						canvasWidth: 200,
+						canvasHeight: 200,
+						syncDimension: false,
+					  });
+					let option;
+					let myChart = 0;
+					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+				   canvas1.addListener("redraw", function(e)
+					  {
+					   let chartDom = scroll.getContentElement().getDomElement();
+					   myChart = echarts.init(chartDom, 'dark');
+					  
+				
+				
+					option = {
+						
+					  xAxis: {
+						type: 'category',
+						data: fechas
+					  },
+					  yAxis: {
+						type: 'value',
+						
+					  },tooltip: {
+						trigger: "axis",
+						axisPointer: {
+					  type: "cross"
+					}, show: false
+				  },
+					  grid: {
+						containLabel: false,
+						show: true
+					  },
+					  series: [
+						{
+						  color: ["#91cc75"],
+						  data: control.obtenerElementoActual(),
+						  type: 'line'
+						}
+					  ]
+					};
+					
+						 myChart.setOption(option);
+					
+				
+					
+					  }, this); 
+					  
+
+				}
+		});
 	}
 
 		
