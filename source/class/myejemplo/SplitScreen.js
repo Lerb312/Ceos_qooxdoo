@@ -29,8 +29,8 @@ qx.Class.define("myejemplo.SplitScreen", {
      
      //Container compatible con el graph1 que contendra el grafico de echarts
      let scroller = new qx.ui.container.Scroll();
-     scroller.setHeight(400);
-     
+     scroller.setHeight(450);
+     scroller.setMaxHeight(450);
      
      scroller.setMaxWidth(1820);//buscar ajustar este tamaño
     
@@ -44,26 +44,26 @@ qx.Class.define("myejemplo.SplitScreen", {
      		
      		
      	//Boton dentro del menuBar1
-     	let btnMenuBar1 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/configure.png");
-   	let btnMenuBar2 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/add_annotation.png");
-     	let btnMenuBar3 = new qx.ui.menubar.Button(null,"myejemplo/imagenes/edit_annotation.png");
-     	let btnMenuBar4 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/crosshair.png");
-     	let btnMenuBar5 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/stagger.png");
-     	let btnMenuBar6 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_in.png");
-     	let btnMenuBar7 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_out.png");
-     	let btnMenuBar8 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/pan.png");
+     	let btnMenuBar1 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/configure_gris.png");
+   		let btnMenuBar2 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/add_annotation_gris.png");
+     	let btnMenuBar3 = new qx.ui.menubar.Button(null,"myejemplo/imagenes/edit_annotation_gris.png");
+     	let btnMenuBar4 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/crosshair_gris.png");
+     	let btnMenuBar5 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/stagger_gris.png");
+     	//let btnMenuBar6 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_in_gris.png");
+     	//let btnMenuBar7 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/zoom_out_gris.png");
+     	let btnMenuBar8 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/pan_gris.png");
      	let btnMenuBar9 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/pointer.png");
-     	let btnMenuBar10 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/undo.png");
-     	let btnMenuBar11 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/redo.png");
-     	let btnMenuBar12 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/scroll_on.png");
-     	let btnMenuBar13 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/time_range.png");
+     	let btnMenuBar10 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/undo_gris.png");
+     	let btnMenuBar11 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/redo_gris.png");
+     	let btnMenuBar12 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/scroll_on_gris.png");
+     	let btnMenuBar13 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/time_range_gris.png");
      	let btnMenuBar14 = new qx.ui.menubar.Button("Save changes");
   
 		
 
      	btnMenuBar3.setEnabled(false);
-     	btnMenuBar6.setEnabled(false);//se esta usando la que trae echarts
-		 btnMenuBar7.setEnabled(false);//se esta usando la que trae echarts
+     	//btnMenuBar6.setEnabled(false);//se esta usando la que trae echarts
+		//btnMenuBar7.setEnabled(false);//se esta usando la que trae echarts
      	btnMenuBar11.setEnabled(false);
         btnMenuBar5.setEnabled(false);
         btnMenuBar8.setEnabled(false);
@@ -82,39 +82,42 @@ qx.Class.define("myejemplo.SplitScreen", {
      	menuBar1.add(btnMenuBar3);
      	menuBar1.add(btnMenuBar4);
      	menuBar1.add(btnMenuBar5);
-     	menuBar1.add(btnMenuBar6);
-     	menuBar1.add(btnMenuBar7);
+     	//menuBar1.add(btnMenuBar6);
+     	//menuBar1.add(btnMenuBar7);
      	menuBar1.add(btnMenuBar8);
      	menuBar1.add(btnMenuBar9);
      	menuBar1.add(btnMenuBar10);
      	menuBar1.add(btnMenuBar11);
      	menuBar1.add(btnMenuBar12);
      	menuBar1.add(btnMenuBar13);
-		menuBar1.add(btnMenuBar14);
+		//menuBar1.add(btnMenuBar14);
    //------------------------------------------------------------------------------------//
    	 //CREACION DEL GRAFICO DENTRO //------//
    	 
    	 let canvas1 = new qx.ui.embed.Canvas().set({
-        canvasWidth: 200,
-        canvasHeight: 200,
-        syncDimension: false,
+        canvasWidth: 500,
+        canvasHeight: 500,
+        syncDimension: true,
       });
 
    let option;
     let myChart = 0;
 	let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
-	let unicValues = [150, 230, 600, 224, 218, 1000, 147, 260];
+	let unicValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+	
+
    canvas1.addListener("redraw", function(e)
       {
        let chartDom = scroller.getContentElement().getDomElement();
-	   myChart = Myecharts.init(chartDom, 'dark');
+	   myChart = Myecharts.init(chartDom);
       
-
+		
 
 	option = {
 		//toolbox solo se coloca una vez al elemento dom
 		toolbox: {
 			show: true,
+			
 			feature: {
 			  dataZoom: {
 				yAxisIndex: "none"
@@ -130,55 +133,51 @@ qx.Class.define("myejemplo.SplitScreen", {
 			  },
 			  saveAsImage: {
 				name: "Grafico",
-				type: "png"
-			  },
+				type: "png",
+				icon: 'path://Save.png',
 			  iconStyle: {
 				color: "rgba(156, 156, 160, 1)"
 			  }
+			},
+			left: "0%"
+		  },
+		  tooltip: {
+			trigger: "axis",
+			axisPointer: {
+			  type: "shadow"
 			}
 		  },
-	  xAxis: {
+	  xAxis: [{
 	    type: 'category',
-	    data: fechas
-	  },
-	  yAxis: {
+	    data: fechas,
+		
+	  }],
+	  yAxis: [{
 	    type: 'value',
 		
-	  },
 		
-	  grid: {
+	  }],
+	  
+		
+	  grid: {//muestra la linea que recubre al la grafica, es decir, el borde
 		containLabel: false,
 		show: true
 	  },
-	  /*dataZoom: [
-        {
-          type: 'inside',
-          xAxisIndex: [0, 1],
-          start: 0,
-          end: 100
-        },
-        {
-          show: true,
-          xAxisIndex: [0, 1],
-          type: 'slider',
-          top: '85%',
-          start: 0,
-          end: 50
-        }
-      ],*/
-	  series: [
+	  
+	  series: [//aqui se representan las lineas
 	    {
 		  color: ["#91cc75"],
 	      data: controladorGrafica.obtenerElementoActual(),
-	      type: 'line'
-	    }/*,
+	      type: 'line',
+		
+	    },
 		//Esta es la forma para configurar una nueva linea
-		{
+		/*{
 			// other configurations of series 2
 			color: ["#ea7ccc"],
-			data: [-50, -200, -589, -10,],
+			data: [-50, 800, 10, 4000, 5000, 45565, 55, -33, 224, 786, -221, 24, -234, -56, 564, 50000, 983, 123, -44400, 0, 23, 12, 43,-22],
 			type: 'line',
-			
+	
 		}*/
 	  ]
 	};
@@ -192,8 +191,9 @@ qx.Class.define("myejemplo.SplitScreen", {
 	  //VALORES QUE SIRVIERON PARA PROBAR LOS METODOS UNDO Y REDO
 	  //[150, 230, 600, 224, 218, 1000, 147, 260]
 	 controladorGrafica.agregarEstado(unicValues);
-	 controladorGrafica.agregarEstado([12, 200, 450, 760]);
-	 controladorGrafica.agregarEstado([25, 0, 1570, -3]);
+	
+	// controladorGrafica.agregarEstado([12, 200, 450, 760]);
+	 //controladorGrafica.agregarEstado([25, 0, 1570, -3]);
 	  
 	 
       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
@@ -1587,17 +1587,18 @@ qx.Class.define("myejemplo.SplitScreen", {
 	
 	undoFunction: function(btnUndo, btnRedo, control, scroll, charts1) {
 		
-		
 		btnUndo.addListener("execute", function(e){
+			
+		let canvas1 = new qx.ui.embed.Canvas().set({
+			canvasWidth: 200,
+			canvasHeight: 200,
+			syncDimension: false,
+		  });
+	
 			if(control.obtenerContador() !== 0 && control.obtenerElementoActual() !== true){
 				btnRedo.setEnabled(true);
 
-			let canvas1 = new qx.ui.embed.Canvas().set({
-				canvasWidth: 200,
-				canvasHeight: 200,
-				syncDimension: false,
-			  });
-		
+			
 		   let option;
 			let myChart = 0;
 		   canvas1.addListener("redraw", function(e)
@@ -1653,16 +1654,19 @@ qx.Class.define("myejemplo.SplitScreen", {
 },
 
 redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
-		
-	btnRedo.addListener("execute", function(e){
-		if(control.obtenerLimiteAgregado() === true){
-			btnUndo.setEnabled(true);
+	
 
+	btnRedo.addListener("execute", function(e){
 		let canvas1 = new qx.ui.embed.Canvas().set({
 			canvasWidth: 200,
 			canvasHeight: 200,
 			syncDimension: false,
 		  });
+		  
+		if(control.obtenerLimiteAgregado() !== true){
+		
+			btnUndo.setEnabled(true);
+
 	
 	   let option;
 		let myChart = 0;
@@ -1709,14 +1713,14 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 	
 		btnAxis.addListener("execute", function(e){
 			
-	
+			let canvas1 = new qx.ui.embed.Canvas().set({
+				canvasWidth: 200,
+				canvasHeight: 200,
+				syncDimension: false,
+			  });
+		
 			if(cont %2 === 0){
 				cont+=1;
-				let canvas1 = new qx.ui.embed.Canvas().set({
-					canvasWidth: 200,
-					canvasHeight: 200,
-					syncDimension: false,
-				  });
 			
 			   let option;
 				let myChart = 0;
@@ -1766,12 +1770,7 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 				 
 				}else{
 					cont+=1;
-					let canvas1 = new qx.ui.embed.Canvas().set({
-						canvasWidth: 200,
-						canvasHeight: 200,
-						syncDimension: false,
-					  });
-					let option;
+					
 					let myChart = 0;
 					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
 				   canvas1.addListener("redraw", function(e)

@@ -8,29 +8,7 @@ qx.Class.define("myejemplo.TrendTable", {
     // table model config
     let tableModel = new qx.ui.table.model.Simple();
 	tableModel.setColumns(columnas);
-	//tableModel.setColumnEditable(0,true);
-	 //tableModel.setColumnSortable(0, true);
-/*  tableModel.setColumnEditable(1,true);
-	tableModel.setColumnEditable(2,true);
-	tableModel.setColumnEditable(3,true);
-	tableModel.setColumnEditable(4,true);
-	tableModel.setColumnEditable(5,true);
-	tableModel.setColumnEditable(6,true);
-	tableModel.setColumnEditable(7,true);
-	tableModel.setColumnEditable(8,true);
-	tableModel.setColumnEditable(9,true);
-	tableModel.setColumnEditable(10,true);
-	tableModel.setColumnEditable(11,true);
-	tableModel.setColumnEditable(12,true);
-	tableModel.setColumnEditable(13,true);
-	tableModel.setColumnEditable(14,true);
-	tableModel.setColumnEditable(15,true);*/
 	
-    
- /*   this.getSelectionModel().setSelectionMode(
-          qx.ui.table.selection.Model.MULTIPLE_INTERVAL_SELECTION
-        );*/
-    
     this.setTableModel(tableModel);
    
 	this
@@ -60,7 +38,13 @@ qx.Class.define("myejemplo.TrendTable", {
     }
    
   },
-  
+
+  //iterador para contabilizar los registros de la tabla
+  statics:{
+	INDEXV_A: 1,
+	INDEXTRACE: 1
+  },
+
   members:{
   
   	mouseEventTable:function(scroll, charts, tableModel, control, columnModel, tabla){
@@ -83,7 +67,7 @@ qx.Class.define("myejemplo.TrendTable", {
 			btn2.setEnabled(true);
             btn3.setEnabled(true);
 		}
-
+		
 		btn1.addListener("execute", function(){
 		columnModel.setDataCellRenderer(0, new qx.ui.table.cellrenderer.Boolean());
 		columnModel.setDataCellRenderer(1, new qx.ui.table.cellrenderer.String());
@@ -97,8 +81,9 @@ qx.Class.define("myejemplo.TrendTable", {
 		columnModel.setDataCellRenderer(9, new qx.ui.table.cellrenderer.Boolean());
 		columnModel.setDataCellRenderer(10, new qx.ui.table.cellrenderer.Boolean());
 				
-				
-				tableModel.addRows([[true, "Value 1", false, true, true, false, false, 0.0, 10.0, false, false]]);//de esta forma se añaden registros
+
+			
+				tableModel.addRows([[true, `Value ${this.self(arguments).INDEXV_A++}`, false, true, true, false, false, 0.0, 10.0, false, false]]);//de esta forma se añaden registros
 									//0,    1,        2,     3,    4,   5,     6,      7,     8,      9,    10
 
 									
@@ -182,7 +167,12 @@ qx.Class.define("myejemplo.TrendTable", {
 					 
 					 
 						 option = {
-							
+							tooltip: {
+								trigger: "axis",
+								axisPointer: {
+								  type: "shadow"
+								}
+							  },
 						   xAxis: {
 							 type: 'category',
 							 data: fechas
@@ -230,7 +220,12 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						
 							option = {
-								
+								tooltip: {
+									trigger: "axis",
+									axisPointer: {
+									  type: "shadow"
+									}
+								  },
 							  xAxis: {
 								type: 'category',
 								data: fechas
@@ -270,7 +265,12 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						
 							option = {
-								
+								tooltip: {
+									trigger: "axis",
+									axisPointer: {
+									  type: "shadow"
+									}
+								  },
 							  xAxis: {
 								type: 'category',
 								data: fechas
@@ -314,7 +314,12 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						
 							option = {
-								
+								tooltip: {
+									trigger: "axis",
+									axisPointer: {
+									  type: "shadow"
+									}
+								  },
 							  xAxis: {
 								type: 'category',
 								data: fechas
@@ -348,7 +353,12 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						
 							option = {
-								
+								tooltip: {
+									trigger: "axis",
+									axisPointer: {
+									  type: "shadow"
+									}
+								  },
 							  xAxis: {
 								type: 'category',
 								data: fechas
@@ -369,7 +379,7 @@ qx.Class.define("myejemplo.TrendTable", {
 	
 						}, this);
 						}
-				}else if(col ===6){
+				}else if(col === 6){
 					//debo añadir esto al echarts en el yAxis 
 					/*axisLabel: {
       				color: "rgba(234, 0, 255, 1)"
@@ -396,7 +406,12 @@ qx.Class.define("myejemplo.TrendTable", {
 				
 				
 					option = {
-						
+						tooltip: {
+							trigger: "axis",
+							axisPointer: {
+							  type: "shadow"
+							}
+						  },
 					  xAxis: {
 						type: 'category',
 						data: fechas
@@ -423,15 +438,40 @@ qx.Class.define("myejemplo.TrendTable", {
 					
 					  }, this); 
 					}
+					if(col === 10){
+						let logaritmos= [];
+						var selection = [];
+						tabla.getSelectionModel().iterateSelection(function (ind) {
+						  selection.push(ind + "");
+						});
+						
+
+					//aqui faltaria hacer que cada linea disponible puede pasarse a logaritmo base 10 para sus valores de y
+						
+
+						
 					
 		
-			
+				}
 			});//cellTap
 		
 			});//execute boton
 			//tableModel.removeRows(fila, 1, true);
-			//FALTA HACER LA FUNCIONALIDAD DEL BOTON2, QUE ELIMINA REGISTROS DE FORMA INDIVIDUAL
-
+		
+			//metodo que borra registros de manera individual
+			btn2.addListener(
+				"execute",
+				function (evt) {
+				  var selection = [];
+				  tabla.getSelectionModel().iterateSelection(function (ind) {
+					selection.push(ind + "");
+				  });
+				  //alert("Fila seleccionada" + selection.join(", "));
+				  
+				  tableModel.removeRows(selection[0], 1, true);
+				},
+				this
+			  );
 			//Remueve todas las filas de la tablas
 			btn3.addListener("execute", function(){
 				tableModel.removeRows(0, tableModel.getRowCount(), true);
