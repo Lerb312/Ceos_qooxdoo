@@ -38,7 +38,7 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
       obtenerEstadoPrevio: function(){
 
         if(this.__contador > 0){
-          return this.__lista[--this.__contadorNotMoved];
+          return this.__lista[--this.__contador];
 
         }else{
           return true;
@@ -47,8 +47,8 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
 
       obtenerEstadoSiguiente: function(){
 
-        if(this.__contador <= this.__contadorNotMoved){
-          return this.__lista[this.__contador++];
+        if(this.__contador < this.__lista.length-1){
+          return this.__lista[++this.__contador];
         }else{
           return true;
         }
@@ -61,15 +61,17 @@ qx.Class.define("myejemplo.ManejadorGrafica", {
 
       //REVISAR ESTO
       obtenerElementoActual: function(){
-        if(this.__contadorNotMoved > 0){
-          return this.__lista[this.__contadorNotMoved];
+        if(this.__contador > 0){
+          return this.__lista[this.__contador];
+        }else{
+          return true;
         }
    
         
       },
 
       obtenerLimiteAgregado: function(){
-        return this.__contador <= this.__contadorNotMoved;
+        return this.__contador === this.__lista.length-1;//tope de la lista
       },
 
       primerElementoDefault: function(){
