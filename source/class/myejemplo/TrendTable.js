@@ -18,6 +18,13 @@ qx.Class.define("myejemplo.TrendTable", {
 	);
 	
     if(id == "Trace"){
+		/*tableModel.setColumnEditable(0,false);
+		tableModel.setColumnEditable(1,true);
+		tableModel.setColumnEditable(2,true);
+		tableModel.setColumnEditable(3,false);
+		tableModel.setColumnEditable(4,true);
+		tableModel.setColumnEditable(5,true);
+		tableModel.setColumnEditable(6,false);*/
     	this.mouseEventTable2(scroll, charts, tableModel, control, this);
 		
     }else if(id == "ValueAxes"){
@@ -39,7 +46,7 @@ qx.Class.define("myejemplo.TrendTable", {
    
   },
 
-  //iterador para contabilizar los registros de la tabla
+  //iterator to count the records in the table
   statics:{
 	INDEXV_A: 1,
 	INDEXTRACE: 1
@@ -75,19 +82,29 @@ qx.Class.define("myejemplo.TrendTable", {
 		columnModel.setDataCellRenderer(3, new qx.ui.table.cellrenderer.Boolean());
 		columnModel.setDataCellRenderer(4, new qx.ui.table.cellrenderer.Boolean());
 		columnModel.setDataCellRenderer(5, new qx.ui.table.cellrenderer.Boolean());
-		columnModel.setDataCellRenderer(6, new qx.ui.table.cellrenderer.Boolean());
+		
+		
+		columnModel.setDataCellRenderer(6, new myejemplo.RenderButton()); 
 		columnModel.setDataCellRenderer(7, new qx.ui.table.cellrenderer.Number());
 		columnModel.setDataCellRenderer(8, new qx.ui.table.cellrenderer.Number());
 		columnModel.setDataCellRenderer(9, new qx.ui.table.cellrenderer.Boolean());
 		columnModel.setDataCellRenderer(10, new qx.ui.table.cellrenderer.Boolean());
 				
-
 			
-				tableModel.addRows([[true, `Value ${this.self(arguments).INDEXV_A++}`, false, true, true, false, false, 0.0, 10.0, false, false]]);//de esta forma se añaden registros
-									//0,    1,        2,     3,    4,   5,     6,      7,     8,      9,    10
+								//new qx.ui.form.Button("Click")
+			/*myejemplo.handlerButtonClick = function (value){
+				alert("hey");
+			}*/
+				tableModel.addRows([[true, `Value ${this.self(arguments).INDEXV_A++}`, false, true, true, false, ,0.0, 10.0, false, false]]);//de esta forma se añaden registros
+									//0,               1,                                 2,   3,    4,     5,    6,    7,   8,     9,    10
 
-									
-				//evento sobre las celdas de la tabla
+				tabla.addListener("cellClick", (e)=>{
+					const {row, col} = e.getData();
+					if(col === 6){
+						alert("click");
+					}
+				})				
+				//event on table cells
 			
 				tabla.addListener("cellTap", function(e){
 			 
@@ -95,7 +112,7 @@ qx.Class.define("myejemplo.TrendTable", {
 				 let row = e.getRow();
 				 
 			 
-				 //activa o desactiva el checkbox dentro de la tabla. Aplicar a todas las columnas que deben tener checkbox
+				 
 				 let canvas1 = new qx.ui.embed.Canvas().set({
 					canvasWidth: 200,
 					canvasHeight: 200,
@@ -105,22 +122,16 @@ qx.Class.define("myejemplo.TrendTable", {
  				let nuevo = tableModel.getValue(1, row);
 				let nuevo_1;
 				if(col === 0){
-					let valorActual = tableModel.getValue(col, row);//valor contenido actulmente
+					let valorActual = tableModel.getValue(col, row);//value currently contained
 
 					 tableModel.setValue(col, row, !valorActual);
 					 
-						 if(tableModel.getValue(col, row) === false){//---->Check esta false
+						 if(tableModel.getValue(col, row) === false){//---->Check is false
 						
-						 //inicio del grafico
-						/* let canvas1 = new qx.ui.embed.Canvas().set({
-							 canvasWidth: 200,
-							 canvasHeight: 200,
-							 syncDimension: false,
-						   });*/  
-					 
+					
 						let option;
 						 let myChart = 0;
-						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified
 						canvas1.addListener("redraw", function(e)
 						   {
 							let chartDom = scroll.getContentElement().getDomElement();
@@ -152,13 +163,13 @@ qx.Class.define("myejemplo.TrendTable", {
 						  
 						 control.agregarEstado([]);
 						
-						   ////////fin del grafico
+						   ////////end of graph
 						 }else{//---->true
 						
 				
 						let option;
 						 let myChart = 0;
-						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified
 						canvas1.addListener("redraw", function(e)
 						   {
 							let chartDom = scroll.getContentElement().getDomElement();
@@ -197,7 +208,7 @@ qx.Class.define("myejemplo.TrendTable", {
 					 }
 			 
 					
-					 //aprovechar el estado del checkbox para modificar la grafica
+					
 					 
 					 
 				}else if(col === 2){
@@ -210,7 +221,7 @@ qx.Class.define("myejemplo.TrendTable", {
 				
 						   let option;
 							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
 						   canvas1.addListener("redraw", function(e)
 							  { 
 								
@@ -256,7 +267,7 @@ qx.Class.define("myejemplo.TrendTable", {
 							
 						   let option;
 							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -305,7 +316,7 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						   let option;
 							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -344,7 +355,7 @@ qx.Class.define("myejemplo.TrendTable", {
 						
 						   let option;
 							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -379,15 +390,12 @@ qx.Class.define("myejemplo.TrendTable", {
 	
 						}, this);
 						}
-				}else if(col === 6){
-					//debo añadir esto al echarts en el yAxis 
-					/*axisLabel: {
-      				color: "rgba(234, 0, 255, 1)"
-   					 }*/
+				}if(col === 6){
+					alert("click here");
   
 				}
 
-				if(col === 1){//tableModel.getValue(1, row)=== nuevo 
+				if(col === 1){
 					
 					nuevo_1= tableModel.getValue(1, row)
 					
@@ -395,7 +403,7 @@ qx.Class.define("myejemplo.TrendTable", {
 					
 					let option;
 					let myChart = 0;
-					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
+					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
 				   canvas1.addListener("redraw", function(e)
 					  { 
 
@@ -453,12 +461,11 @@ qx.Class.define("myejemplo.TrendTable", {
 					
 		
 				}
-			});//cellTap
+			});// end cellTap
 		
-			});//execute boton
-			//tableModel.removeRows(fila, 1, true);
+			});
 		
-			//metodo que borra registros de manera individual
+			//method that deletes records individually
 			btn2.addListener(
 				"execute",
 				function (evt) {
@@ -466,13 +473,13 @@ qx.Class.define("myejemplo.TrendTable", {
 				  tabla.getSelectionModel().iterateSelection(function (ind) {
 					selection.push(ind + "");
 				  });
-				  //alert("Fila seleccionada" + selection.join(", "));
+				 
 				  
 				  tableModel.removeRows(selection[0], 1, true);
 				},
 				this
 			  );
-			//Remueve todas las filas de la tablas
+			//Removes all rows from the table
 			btn3.addListener("execute", function(){
 				tableModel.removeRows(0, tableModel.getRowCount(), true);
 			});
@@ -492,7 +499,7 @@ qx.Class.define("myejemplo.TrendTable", {
 
 
   	mouseEventTable2:function(scroll, charts, modeloTabla, control){
-  	
+		let winAddPv = new myejemplo.WindowAddPV(modeloTabla, control);
   		this.addListener("contextmenu", function(e){
   		
   		 
@@ -503,9 +510,10 @@ qx.Class.define("myejemplo.TrendTable", {
 		let btn2 = new qx.ui.menu.Button("Add Formula");
 			
 			btn1.addListener("execute", function(){
-				//logica 
+				
 			
 			
+			winAddPv.open();
 			
 		});
 			
