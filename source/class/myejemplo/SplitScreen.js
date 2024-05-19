@@ -3,47 +3,46 @@
 *@asset(charts.js)
 */
 
-// SplitScreen layout - pantalla dividida
+// SplitScreen layout 
 qx.Class.define("myejemplo.SplitScreen", {
   extend: qx.ui.splitpane.Pane,
   construct: function () {
     
-    // Llama al constructor de la clase base
-    this.base(arguments, "vertical"); // "vertical" para un divisor horizontal
+    // Calls the constructor of the base class
+    this.base(arguments, "vertical"); // “vertical” for a horizontal divider
 
 	 let Myecharts = require("echarts");
-	 //Objeto que guarda los estados de la grafica (valores numericos)
+	 //Object that stores the states of the graph (numerical values)
 	 let controladorGrafica = new myejemplo.ManejadorGrafica(); 
     // SplitScreen TOP component
     let topComponent = new qx.ui.tabview.TabView();
-    // test
+
 
      topComponent.setMinHeight(200);
      topComponent.setMaxHeight(550); 
      
      
-     //contenedorMainTop.add(topComponent);
      let graph1 = new qx.ui.tabview.Page("Data Browser");
      graph1.setShowCloseButton(true);
      graph1.setLayout(new qx.ui.layout.Grid(30, 25));
      
-     //Container compatible con el graph1 que contendra el grafico de echarts
+     //Container compatible with graph1 containing the echarts chart
      let scroller = new qx.ui.container.Scroll();
      scroller.setHeight(450);
      scroller.setMaxHeight(450);
      
-     scroller.setMaxWidth(1820);//buscar ajustar este tamaño
+     scroller.setMaxWidth(1820);//note: look for this size to fit
     
   
 	
-     //MenuBar para el graph1
+     //MenuBar for graph1
      let menuBar1 = new qx.ui.menubar.MenuBar();	
      
      
      	
      		
      		
-     	//Boton dentro del menuBar1
+     	//Button inside menuBar1
      	let btnMenuBar1 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/configure_gris.png");
    		let btnMenuBar2 = new qx.ui.menubar.Button(null, "myejemplo/imagenes/add_annotation_gris.png");
      	let btnMenuBar3 = new qx.ui.menubar.Button(null,"myejemplo/imagenes/edit_annotation_gris.png");
@@ -62,8 +61,8 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 
      	btnMenuBar3.setEnabled(false);
-     	//btnMenuBar6.setEnabled(false);//se esta usando la que trae echarts
-		//btnMenuBar7.setEnabled(false);//se esta usando la que trae echarts
+     	//btnMenuBar6.setEnabled(false);//the one that comes with echarts is being used
+		//btnMenuBar7.setEnabled(false);//the one that comes with echarts is being used
      	btnMenuBar11.setEnabled(false);
         btnMenuBar5.setEnabled(false);
         btnMenuBar8.setEnabled(false);
@@ -76,7 +75,7 @@ qx.Class.define("myejemplo.SplitScreen", {
       this.openTimeDialog(btnMenuBar13);
 	  this.openAxis(btnMenuBar4, scroller, Myecharts, controladorGrafica);
      	
-     	//menuBar1 añade a btnMenuBar
+     	//menuBar1 adds to btnMenuBar
      	menuBar1.add(btnMenuBar1);
 	    menuBar1.add(btnMenuBar2);
      	menuBar1.add(btnMenuBar3);
@@ -92,13 +91,14 @@ qx.Class.define("myejemplo.SplitScreen", {
      	menuBar1.add(btnMenuBar13);
 		//menuBar1.add(btnMenuBar14);
    //------------------------------------------------------------------------------------//
-   	 //CREACION DEL GRAFICO DENTRO //------//
+   	 //CREATION OF THE GRAPHIC INSIDE //------//
    	 
    	 let canvas1 = new qx.ui.embed.Canvas().set({
         canvasWidth: 500,
         canvasHeight: 500,
         syncDimension: true,
       });
+	  
 
    let option;
     let myChart = 0;
@@ -114,7 +114,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 		
 
 	option = {
-		//toolbox solo se coloca una vez al elemento dom
+		//toolbox is only placed once on the dom element.
 		toolbox: {
 			show: true,
 			
@@ -134,7 +134,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 			  saveAsImage: {
 				name: "Grafico",
 				type: "png",
-				icon: 'path://Save.png',
+			  },
 			  iconStyle: {
 				color: "rgba(156, 156, 160, 1)"
 			  }
@@ -255,7 +255,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     
     
     //Añadiendo lista con los encabezados a la pagina Trace
-    const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color", "Cursor Value", "Scan Period", "Buffer Size", "Axis", "Trace Type", "Width", "Style", "Point", "Size", "Request", "Index"];
+    const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color","Scan Period", "Buffer Size", "Axis"];
     		
 	///////borrar
 	let tableModel = new qx.ui.table.model.Simple();
@@ -702,13 +702,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     value_Axes.add(btnradioExe, {row: 0, column: 2});
     value_Axes.add(trendTable_2, {row: 1, column: 0});
    
-   //verifica si la tabla esta vacia. En caso de que si, se muestra un mensahje en letras rojas al lado de la tabla: "Tabla sin contenido"
-   /* if(trendTable_2.getTableModel().getData().length === 0){
-    qx.log.Logger.info(this, "entre al if");
-    let mensajeVacio = new qx.ui.basic.Label("Tabla sin contenido");
-     value_Axes.add(mensajeVacio, {row: 1, column: 1});
-     mensajeVacio.setTextColor("red");
-    }*/
+  
     /////////////////////////////////////////////////
     
     
@@ -1068,7 +1062,7 @@ qx.Class.define("myejemplo.SplitScreen", {
       	let groupCheck = new qx.ui.groupbox.GroupBox("Options");
       	 groupCheck.setLayout(new qx.ui.layout.VBox(10));
   	
-  	
+  	//Auto-scale
   	let autoScale = new qx.ui.form.CheckBox("Auto-scale");
   		autoScale.addListener("changeValue", function (e) {
 		
@@ -1083,6 +1077,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 	      
 	    groupCheck.add(autoScale);
 	    
+		// is visible or not
 	    let visible = new qx.ui.form.CheckBox("Visible");
 	    visible.setValue(true);
   		
@@ -1267,10 +1262,10 @@ qx.Class.define("myejemplo.SplitScreen", {
 	     let contenedorDer = new qx.ui.container.Composite(new qx.ui.layout.Grid(10, 10));
      
      
-     		 contenedorDer.setMinWidth(500); 
+     	 contenedorDer.setMinWidth(500); 
 		 contenedorDer.setMaxWidth(600);
 		 contenedorIzq.setMinWidth(500); 
-		  contenedorIzq.setMaxWidth(600);
+		 contenedorIzq.setMaxWidth(600);
 	  ////ELEMENTOS DEL contenedorIzq////
      let labelResumen = new qx.ui.basic.Label("0/0/0");
      	 labelResumen.setBackgroundColor("#cacfd2");
