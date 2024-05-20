@@ -18,14 +18,16 @@ qx.Class.define("myejemplo.TrendTable", {
 	);
 	
     if(id == "Trace"){
-		/*tableModel.setColumnEditable(0,false);
+		//"Show", "Item(PV, Formula)", "Display Name", "Color","Scan Period", "Buffer Size", "Axis"
+		tableModel.setColumnEditable(0,false);
 		tableModel.setColumnEditable(1,true);
 		tableModel.setColumnEditable(2,true);
 		tableModel.setColumnEditable(3,false);
 		tableModel.setColumnEditable(4,true);
 		tableModel.setColumnEditable(5,true);
-		tableModel.setColumnEditable(6,false);*/
-    	this.mouseEventTable2(scroll, charts, tableModel, control, this);
+		tableModel.setColumnEditable(6,false);
+		let columnModelTrace = this.getTableColumnModel();
+    	this.mouseEventTable2(scroll, charts, tableModel, control, columnModelTrace ,this);
 		
     }else if(id == "ValueAxes"){
 		tableModel.setColumnEditable(0,false);
@@ -56,7 +58,7 @@ qx.Class.define("myejemplo.TrendTable", {
   
   	mouseEventTable:function(scroll, charts, tableModel, control, columnModel, tabla){
 	
-		
+	
 		
   		tabla.addListener("contextmenu", function(e){
  
@@ -66,7 +68,9 @@ qx.Class.define("myejemplo.TrendTable", {
   		let btn1 = new qx.ui.menu.Button("Add Axis");
 		let btn2 = new qx.ui.menu.Button("Delete Axis");
 		let btn3 = new qx.ui.menu.Button("Remove Empty Axes");
+		
 
+	
 		if(tableModel.getRowCount() === 0){
             btn2.setEnabled(false);
             btn3.setEnabled(false);
@@ -91,19 +95,11 @@ qx.Class.define("myejemplo.TrendTable", {
 		columnModel.setDataCellRenderer(10, new qx.ui.table.cellrenderer.Boolean());
 				
 			
-								//new qx.ui.form.Button("Click")
-			/*myejemplo.handlerButtonClick = function (value){
-				alert("hey");
-			}*/
+			
 				tableModel.addRows([[true, `Value ${this.self(arguments).INDEXV_A++}`, false, true, true, false, ,0.0, 10.0, false, false]]);//de esta forma se añaden registros
 									//0,               1,                                 2,   3,    4,     5,    6,    7,   8,     9,    10
 
-				tabla.addListener("cellClick", (e)=>{
-					const {row, col} = e.getData();
-					if(col === 6){
-						alert("click");
-					}
-				})				
+							
 				//event on table cells
 			
 				tabla.addListener("cellTap", function(e){
@@ -118,7 +114,9 @@ qx.Class.define("myejemplo.TrendTable", {
 					canvasHeight: 200,
 					syncDimension: false,
 				  });
-
+				  	let option;
+					let myChart = 0;
+					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
  				let nuevo = tableModel.getValue(1, row);
 				let nuevo_1;
 				if(col === 0){
@@ -129,9 +127,9 @@ qx.Class.define("myejemplo.TrendTable", {
 						 if(tableModel.getValue(col, row) === false){//---->Check is false
 						
 					
-						let option;
+					/*	let option;
 						 let myChart = 0;
-						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						canvas1.addListener("redraw", function(e)
 						   {
 							let chartDom = scroll.getContentElement().getDomElement();
@@ -155,6 +153,7 @@ qx.Class.define("myejemplo.TrendTable", {
 							 }
 						   ]
 						 };
+						   
 							  myChart.setOption(option);
 						 
 					 
@@ -167,9 +166,9 @@ qx.Class.define("myejemplo.TrendTable", {
 						 }else{//---->true
 						
 				
-						let option;
+						/*	let option;
 						 let myChart = 0;
-						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						canvas1.addListener("redraw", function(e)
 						   {
 							let chartDom = scroll.getContentElement().getDomElement();
@@ -219,9 +218,9 @@ qx.Class.define("myejemplo.TrendTable", {
 					
 						if(tableModel.getValue(col, row)){
 				
-						   let option;
-							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
+						 /*	let option;
+						 let myChart = 0;
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						   canvas1.addListener("redraw", function(e)
 							  { 
 								
@@ -265,9 +264,9 @@ qx.Class.define("myejemplo.TrendTable", {
 	
 						}else{
 							
-						   let option;
-							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
+						  /*	let option;
+						 let myChart = 0;
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -299,6 +298,7 @@ qx.Class.define("myejemplo.TrendTable", {
 								}
 							  ]
 							};
+							
 								 myChart.setOption(option);
 					 
 	
@@ -313,10 +313,9 @@ qx.Class.define("myejemplo.TrendTable", {
 
 						if(tableModel.getValue(col, row)){
 							
-						
-						   let option;
-							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
+						/*	let option;
+						 let myChart = 0;
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -353,9 +352,9 @@ qx.Class.define("myejemplo.TrendTable", {
 						}else{
 						
 						
-						   let option;
-							let myChart = 0;
-							let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
+						   /*	let option;
+						 let myChart = 0;
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 						   canvas1.addListener("redraw", function(e)
 							  {
 							   let chartDom = scroll.getContentElement().getDomElement();
@@ -391,9 +390,70 @@ qx.Class.define("myejemplo.TrendTable", {
 						}, this);
 						}
 				}if(col === 6){
-					alert("click here");
-  
-				}
+					let cl = new qx.ui.basic.Label();
+					let color = new qx.ui.control.ColorPopup(); 
+					color.exclude(); 			
+					color.setValue("#2BFFFB");
+					color.placeToWidget(tabla);
+       				color.show();
+
+					   color.addListener("changeValue", function (e) {
+					
+						canvas1.addListener("redraw", function()
+						{ 
+						
+						 
+						  let chartDom= scroll.getContentElement().getDomElement();
+						 myChart = charts.init(chartDom, 'dark');
+
+							
+					  option = {
+						//color stats------> color: [" rgba(197, 19, 19, 1)"],
+						  tooltip: {
+							  trigger: "axis",
+							  axisPointer: {
+								type: "shadow"
+							  }
+							},
+						xAxis: {
+						  type: 'category',
+						  data: fechas
+						},
+							yAxis: [{
+						  type: 'value',
+						  name: nuevo_1,
+						  nameLocation: "end",
+						  nameTextStyle: {
+							  fontWeight: "bold",
+							  fontSize: 16
+							},
+							/*axisLine: {
+								lineStyle: {
+								  color: 
+								}
+							  }*/
+						}],
+					  
+						series: [
+						  {
+							data: control.obtenerElementoActual(),
+							type: 'line'
+						  }
+						]
+					  };
+						   myChart.setOption(option);
+					  
+						}, this);
+						
+					  }, this);
+					 
+
+						
+					
+					  }
+					   
+						
+				
 
 				if(col === 1){
 					
@@ -401,9 +461,9 @@ qx.Class.define("myejemplo.TrendTable", {
 					
 					
 					
-					let option;
-					let myChart = 0;
-					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];//can be modified
+				/*	let option;
+						 let myChart = 0;
+						 let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///can be modified*/
 				   canvas1.addListener("redraw", function(e)
 					  { 
 
@@ -498,8 +558,8 @@ qx.Class.define("myejemplo.TrendTable", {
   	},
 
 
-  	mouseEventTable2:function(scroll, charts, modeloTabla, control){
-		let winAddPv = new myejemplo.WindowAddPV(modeloTabla, control);
+  	mouseEventTable2:function(scroll, charts, modeloTabla, control, modelColumn, tabla){
+		let winAddPv = new myejemplo.WindowAddPV(modeloTabla, modelColumn, control, scroll, charts, tabla);
   		this.addListener("contextmenu", function(e){
   		
   		 
@@ -514,6 +574,35 @@ qx.Class.define("myejemplo.TrendTable", {
 			
 			
 			winAddPv.open();
+			tabla.addListener("cellTap", function(e){
+				let col = e.getColumn();
+                let row = e.getRow();
+                
+                if(col === 0){
+                    let valorCol = modeloTabla.getValue(col, row);
+					modeloTabla.setValue(col, row, !valorCol);
+					if(modeloTabla.getValue(col, row)){
+						//si esta true
+						//se debe mostrar la linea correspondiente a este registro
+					}else{
+						alert(" no activa")
+						//false
+						//se debe ocultar la linea correspondiente a este registro, pero no su value axes. Se mostrara un mensaje con una advertencia 
+					}
+
+			}
+			if(col === 3){
+				//corresponde al boton que abre el ColorPopup
+				let color = new qx.ui.control.ColorPopup(); 
+					color.exclude(); 			
+					color.setValue("#2BFFFB");
+					color.placeToWidget(tabla);
+       				color.show();
+
+					   color.addListener("changeValue", function (e) {});
+
+			}
+		});
 			
 		});
 			

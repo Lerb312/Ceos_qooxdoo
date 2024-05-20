@@ -149,13 +149,10 @@ qx.Class.define("myejemplo.SplitScreen", {
 		  },
 	  xAxis: [{
 	    type: 'category',
-	    data: fechas,
-		
+	    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 	  }],
 	  yAxis: [{
-	    type: 'value',
-		
-		
+	    type: 'value'
 	  }],
 	  
 		
@@ -166,35 +163,27 @@ qx.Class.define("myejemplo.SplitScreen", {
 	  
 	  series: [//aqui se representan las lineas
 	    {
+			
+		  name: 'Inicio',
 		  color: ["#91cc75"],
 	      data: controladorGrafica.obtenerElementoActual(),
 	      type: 'line',
 		
 	    },
-		//Esta es la forma para configurar una nueva linea
-		/*{
-			// other configurations of series 2
-			color: ["#ea7ccc"],
-			data: [-50, 800, 10, 4000, 5000, 45565, 55, -33, 224, 786, -221, 24, -234, -56, 564, 50000, 983, 123, -44400, 0, 23, 12, 43,-22],
-			type: 'line',
-	
-		}*/
+		
+
 	  ]
 	};
 	
+
      	myChart.setOption(option);
 	
-
+	
 	
       }, this); 
 
-	  //VALORES QUE SIRVIERON PARA PROBAR LOS METODOS UNDO Y REDO
-	  //[150, 230, 600, 224, 218, 1000, 147, 260]
-	 controladorGrafica.agregarEstado(unicValues);
-	
-	// controladorGrafica.agregarEstado([12, 200, 450, 760]);
-	 //controladorGrafica.agregarEstado([25, 0, 1570, -3]);
 	  
+	 controladorGrafica.agregarEstado(unicValues);
 	 
       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
       graph1.add(scroller, {row: 1, column: 0, colSpan: 150});
