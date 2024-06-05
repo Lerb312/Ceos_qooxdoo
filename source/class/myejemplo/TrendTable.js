@@ -51,9 +51,15 @@ qx.Class.define("myejemplo.TrendTable", {
   //iterator to count the records in the table
   statics:{
 	INDEXV_A: 1,
-	INDEXTRACE: 1
+	INDEXTRACE: 1,
   },
-
+  properties:{
+	contTableTrace:{
+		init: null,
+		check: "myejemplo.TrendTable"
+	}
+  }
+  ,
   members:{
   
   	mouseEventTable:function(scroll, charts, tableModel, control, columnModel, tabla){
@@ -618,7 +624,12 @@ qx.Class.define("myejemplo.TrendTable", {
   		});
   	
   	
-  	}
+  	},
+
+	setTableValue_Axes: function(table_Trace){
+		//asigno a la propiedad el valor de la otra tabla
+
+	}
 	}
 });
  
