@@ -18,8 +18,8 @@ qx.Class.define("myejemplo.SplitScreen", {
     let topComponent = new qx.ui.tabview.TabView();
 
 
-     topComponent.setMinHeight(200);
-     topComponent.setMaxHeight(550); 
+     topComponent.setMinHeight(600);
+     topComponent.setMaxHeight(650); 
      
      
      let graph1 = new qx.ui.tabview.Page("Data Browser");
@@ -73,7 +73,7 @@ qx.Class.define("myejemplo.SplitScreen", {
       this.windowConfig1(btnMenuBar1, scroller);
       this.addAnotation(btnMenuBar2);
       this.openTimeDialog(btnMenuBar13);
-	  this.openAxis(btnMenuBar4, scroller, Myecharts, controladorGrafica);
+	  
      	
      	//menuBar1 adds to btnMenuBar
      	menuBar1.add(btnMenuBar1);
@@ -92,7 +92,9 @@ qx.Class.define("myejemplo.SplitScreen", {
 		//menuBar1.add(btnMenuBar14);
    //------------------------------------------------------------------------------------//
    	 //CREATION OF THE GRAPHIC INSIDE //------//
-   	 
+   	
+
+
    	 let canvas1 = new qx.ui.embed.Canvas().set({
         canvasWidth: 500,
         canvasHeight: 500,
@@ -102,12 +104,26 @@ qx.Class.define("myejemplo.SplitScreen", {
 
    let option;
     let myChart = 0;
-	let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
 	let unicValues = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 	
+	const categories = (function () {
+		let now = new Date();
+		let res = [];
+		let len = 10;
+		while (len--) {
+		  res.unshift(now.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}).replace(/^\D*/, ''));
+		  now = new Date(+now -2000);
+		}
+		return res;
+	  })();
 
-   canvas1.addListener("redraw", function(e)
-      {
+	  this.openAxis(btnMenuBar4, scroller, Myecharts, controladorGrafica, categories);
+	  setInterval(function () {
+		let axisData = new Date().toLocaleTimeString().replace(/^\D*/, '');
+	   
+		categories.shift();
+		categories.push(axisData);
+
        let chartDom = scroller.getContentElement().getDomElement();
 	   myChart = Myecharts.init(chartDom);
       
@@ -149,7 +165,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 		  },
 	  xAxis: [{
 	    type: 'category',
-	    data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+	    data: categories
 	  }],
 	  yAxis: [{
 	    type: 'value'
@@ -163,12 +179,12 @@ qx.Class.define("myejemplo.SplitScreen", {
 	  
 	  series: [//aqui se representan las lineas
 	    {
-			
+		/*	
 		  name: 'Inicio',
 		  color: ["#91cc75"],
 	      data: controladorGrafica.obtenerElementoActual(),
 	      type: 'line',
-		
+		*/
 	    },
 		
 
@@ -180,14 +196,18 @@ qx.Class.define("myejemplo.SplitScreen", {
 	
 	
 	
-      }, this); 
+     // }, this); 
+
+	  }, 1000);//dibuja mas rapido los fotogramas
+
+
 
 	  
-	 controladorGrafica.agregarEstado(unicValues);
+	// controladorGrafica.agregarEstado(unicValues);
 	 
       graph1.add(menuBar1, {row: 0, column: 0, colSpan: 50});
       graph1.add(scroller, {row: 1, column: 0, colSpan: 150});
-	  this.undoFunction(btnMenuBar10, btnMenuBar11, controladorGrafica, scroller, Myecharts);
+	  this.undoFunction(btnMenuBar10, btnMenuBar11, controladorGrafica, scroller, Myecharts);//,
 	  this.redoFunction(btnMenuBar11, btnMenuBar10, controladorGrafica, scroller, Myecharts);
 	 // this.saveState(btnMenuBar14, controladorGrafica, estado);
       this.mouseEventTable(scroller);
@@ -240,30 +260,7 @@ qx.Class.define("myejemplo.SplitScreen", {
     page1.add(contenido);
     /////////////////////////////////////////
     
-    //ELEMENTOS PARA LA PAGINA  trace//////////////////////////
     
-    
-    //Añadiendo lista con los encabezados a la pagina Trace
-    const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color","Scan Period", "Buffer Size", "Axis"];
-    		
-	///////borrar
-	let tableModel = new qx.ui.table.model.Simple();
-	tableModel.setColumns(encanbezado_Tabla);
-///////
-
-    		//añadiendo su tabla respectiva
-    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace", scroller, Myecharts, controladorGrafica);
-         
-	/*
-    //valida si la tabla no posee elementos. En caso que si este vacia, se muestra a un lado de la tabla en letras rojas el mensaje "No hay trazas"       
-     if(trendTable.getTableModel().getData().length === 0){
-    let msgVacio = new qx.ui.basic.Label("No hay trazas");
-     trace.add(msgVacio, {row: 0, column: 1});
-     msgVacio.setTextColor("red");
-    }    */
-    	//se añade la tabla a la pagina trace
-     trace.add(trendTable, {row: 0, column: 0});
-    /////////////////////////////////////////////
     
     
     ////////ELEMENTOS PARA LA PAGINA time_Axis
@@ -685,6 +682,28 @@ qx.Class.define("myejemplo.SplitScreen", {
      	let lista = ["Show", "Axis Name", "Axis Name?", "Trace Names?", "Grid", "On Right", "Color", "Min", "Max", "Auto-Scale", "Log.Scale"];
      let trendTable_2 = new myejemplo.TrendTable(lista, "ValueAxes", scroller, Myecharts, controladorGrafica);
      
+	/////////////////////////////////////////////////////////////////
+	//ELEMENTOS PARA LA PAGINA  trace//////////////////////////
+    
+    
+    //Añadiendo lista con los encabezados a la pagina Trace
+    const encanbezado_Tabla = ["Show", "Item(PV, Formula)", "Display Name", "Color","Scan Period", "Buffer Size", "Axis"];
+    		
+	///////borrar
+	let tableModel = new qx.ui.table.model.Simple();
+	tableModel.setColumns(encanbezado_Tabla);
+///////
+
+    		//añadiendo su tabla respectiva
+    let trendTable = new myejemplo.TrendTable(encanbezado_Tabla, "Trace", scroller, Myecharts, controladorGrafica);
+         trendTable.setContTableTrace(trendTable_2);
+
+    	//se añade la tabla a la pagina trace
+     trace.add(trendTable, {row: 0, column: 0});
+    /////////////////////////////////////////////
+
+
+	///////////////////////////////////////////////////////////////
      //se añaden los elementos a la pagina value_Axes
     value_Axes.add(situacion, {row: 0, column: 0});
     value_Axes.add(btnradioNotDo, {row: 0, column: 1});
@@ -1578,13 +1597,13 @@ qx.Class.define("myejemplo.SplitScreen", {
 			canvasHeight: 200,
 			syncDimension: false,
 		  });
-	
+	 
 			if(control.obtenerContador() !== 0 && control.obtenerElementoActual() !== true){
 				btnRedo.setEnabled(true);
 
-			
-		   let option;
+		
 			let myChart = 0;
+			let option = 0;
 		   canvas1.addListener("redraw", function(e)
 			  {
 			   let chartDom = scroll.getContentElement().getDomElement();
@@ -1629,7 +1648,7 @@ qx.Class.define("myejemplo.SplitScreen", {
 	
 	      
   		
-	
+	//no used
 	saveState: function(btnSave, control, nuevoEstado){
 		btnSave.addListener("execute", function(){
 		//control.agregarEstado(nuevoEstado);   
@@ -1677,7 +1696,7 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 		};
 	
 
-			 myChart.setOption(option);
+			 myChart.setOption(option, true, true);
 	
 	
 	
@@ -1692,24 +1711,19 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 });
 
 	},
-	openAxis:function(btnAxis, scroll, echarts, control){
+	openAxis:function(btnAxis, scroll, echarts, control, categories){
 	let cont =0;
 	
 		btnAxis.addListener("execute", function(e){
 			
-			let canvas1 = new qx.ui.embed.Canvas().set({
-				canvasWidth: 200,
-				canvasHeight: 200,
-				syncDimension: false,
-			  });
-		
 			if(cont %2 === 0){
 				cont+=1;
 			
 			   let option;
 				let myChart = 0;
 				let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
-			   canvas1.addListener("redraw", function(e)
+
+			  setInterval(function()
 				  {
 				   let chartDom = scroll.getContentElement().getDomElement();
 				   myChart = echarts.init(chartDom, 'dark');
@@ -1720,28 +1734,30 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 					
 				  xAxis: {
 					type: 'category',
-					data: fechas
+					//data: categories  NO ES NECESARIO REPETIR ESTO. SOLO SE DECLARA UNA VEZ
 				  },
 				  yAxis: {
 					type: 'value',
 					
 				  },
 					tooltip: {
-					trigger: "axis",
-					axisPointer: {
-				  type: "cross"
-				},
-				show: true
+						trigger: 'axis',
+						axisPointer: {
+						  type: 'cross',
+						  label: {
+							backgroundColor: '#283b56'
+						  }
+						}
 			  },
 				  grid: {
-					containLabel: false,
+					containLabel: true,
 					show: true
 				  },
 				  series: [
-					{
+					{/*
 					  color: ["#91cc75"],
 					  data: control.obtenerElementoActual(),
-					  type: 'line'
+					  type: 'line'*/
 					}
 				  ]
 				};
@@ -1750,15 +1766,15 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 				
 			
 				
-				  }, this); 
+				  }, 100); 
 				 
 				}else{
 					cont+=1;
 					
 					let myChart = 0;
 					let fechas=['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];///modificable
-				   canvas1.addListener("redraw", function(e)
-					  {
+				 //  setInterval(function(e)
+					//  {
 					   let chartDom = scroll.getContentElement().getDomElement();
 					   myChart = echarts.init(chartDom, 'dark');
 					  
@@ -1768,7 +1784,7 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 						
 					  xAxis: {
 						type: 'category',
-						data: fechas
+						//data: categories
 					  },
 					  yAxis: {
 						type: 'value',
@@ -1784,10 +1800,10 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 						show: true
 					  },
 					  series: [
-						{
+						{/*
 						  color: ["#91cc75"],
 						  data: control.obtenerElementoActual(),
-						  type: 'line'
+						  type: 'line'*/
 						}
 					  ]
 					};
@@ -1796,7 +1812,7 @@ redoFunction: function(btnRedo, btnUndo, control, scroll, charts1) {
 					
 				
 					
-					  }, this); 
+					//  }, 2100); 
 					  
 
 				}

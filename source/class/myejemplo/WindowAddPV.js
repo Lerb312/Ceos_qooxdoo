@@ -79,8 +79,7 @@ qx.Class.define("myejemplo.WindowAddPV", {
             btnAceptar.addListener("execute", function(){
             //creates a record in the Trace table and in turn must create an equivalent record in the Value Axes table to configure the Y-axis values.
             //"Show", "Item(PV, Formula)", "Display Name", "Color","Scan Period", "Buffer Size", "Axis"
-            modeloTabla.addRows([[true, txtName.getValue(), txtName.getValue(), , 0.0, 5000,  ]]);
-           
+            modeloTabla.addRows([[true, txtName.getValue(), txtName.getValue(), , 0.0, 5000, modeloTabla.getDataAsMapArray()]]);
 
             //////////////////////
                
